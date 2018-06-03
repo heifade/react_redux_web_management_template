@@ -6,3 +6,6 @@ let div = document.createElement("div");
 document.body.appendChild(div);
 
 ReactDOM.render(<AppComponent />, div);
+
+
+console.log(11);

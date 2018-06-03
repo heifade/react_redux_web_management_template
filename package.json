@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "node .bin/build.js build",
-    "start": "node .bin/build.js start"
+    "start": "node .bin/build.js start -p 2000"
   },
   "keywords": [],
   "author": "",
