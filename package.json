@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node .bin/build.js build",
-    "start": "node .bin/build.js start -p 2000"
+    "build": "buildertools build",
+    "start": "buildertools start -p 2000"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,7 @@
     "@types/react-router-dom": "^4.2.7",
     "@types/redux": "^3.6.0",
     "@types/redux-thunk": "^2.1.0",
+    "buildertools-config": "^0.0.1-beta2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",

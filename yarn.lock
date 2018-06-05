@@ -137,6 +137,10 @@ babel-runtime@6.x, babel-runtime@^6.23.0, babel-runtime@^6.26.0:
     core-js "^2.4.0"
     regenerator-runtime "^0.11.0"
 
+buildertools-config@^0.0.1-beta2:
+  version "0.0.1-beta2"
+  resolved "https://registry.npmjs.org/buildertools-config/-/buildertools-config-0.0.1-beta2.tgz#cadef5174e2ed27290aeb55b9b00e3e1684145af"
+
 classnames@2.x, classnames@^2.2.0, classnames@^2.2.1, classnames@^2.2.3, classnames@^2.2.5, classnames@~2.2.0:
   version "2.2.5"
   resolved "https://registry.npmjs.org/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
