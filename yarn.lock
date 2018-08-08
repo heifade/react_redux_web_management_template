@@ -52,6 +52,12 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/redux-logger@^3.0.6":
+  version "3.0.6"
+  resolved "https://registry.npmjs.org/@types/redux-logger/-/redux-logger-3.0.6.tgz#4cf9d5b596b576b030a4bb671547f0ab63f81a73"
+  dependencies:
+    redux "^3.6.0"
+
 "@types/redux-thunk@^2.1.0":
   version "2.1.0"
   resolved "http://registry.npmjs.org/@types/redux-thunk/-/redux-thunk-2.1.0.tgz#bc2b6e972961831afb82a9bf4f06726e351f9416"
@@ -331,7 +337,7 @@ json2mq@^0.2.0:
   dependencies:
     string-convert "^0.2.0"
 
-lodash-es@^4.17.5:
+lodash-es@^4.17.5, lodash-es@^4.2.1:
   version "4.17.10"
   resolved "https://registry.npmjs.org/lodash-es/-/lodash-es-4.17.10.tgz#62cd7104cdf5dd87f235a837f0ede0e8e5117e05"
 
@@ -363,7 +369,7 @@ lodash.throttle@^4.0.0:
   version "4.1.1"
   resolved "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
 
-lodash@^4.16.5, lodash@^4.17.4, lodash@^4.17.5:
+lodash@^4.16.5, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1:
   version "4.17.10"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
@@ -918,6 +924,15 @@ redux@*, redux@^4.0.0:
     loose-envify "^1.1.0"
     symbol-observable "^1.2.0"
 
+redux@^3.6.0:
+  version "3.7.2"
+  resolved "https://registry.npmjs.org/redux/-/redux-3.7.2.tgz#06b73123215901d25d065be342eb026bc1c8537b"
+  dependencies:
+    lodash "^4.2.1"
+    lodash-es "^4.2.1"
+    loose-envify "^1.1.0"
+    symbol-observable "^1.0.3"
+
 regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
@@ -963,7 +978,7 @@ string-convert@^0.2.0:
   version "0.2.1"
   resolved "https://registry.npmjs.org/string-convert/-/string-convert-0.2.1.tgz#6982cc3049fbb4cd85f8b24568b9d9bf39eeff97"
 
-symbol-observable@^1.2.0:
+symbol-observable@^1.0.3, symbol-observable@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
 

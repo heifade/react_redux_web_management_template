@@ -13,10 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^10.5.7",
-    "antd": "^3.8.0",
-    "redux-logger": "^3.0.6"
-  },
-  "dependencies": {
+    "@types/redux-logger": "^3.0.6",
     "@types/react": "^16.4.8",
     "@types/react-dom": "^16.0.7",
     "@types/react-redux": "^6.0.6",
@@ -24,6 +21,10 @@
     "@types/react-router-dom": "^4.3.0",
     "@types/redux": "^3.6.0",
     "@types/redux-thunk": "^2.1.0",
+    "antd": "^3.8.0",
+    "redux-logger": "^3.0.6"
+  },
+  "dependencies": {
     "happywork-config": "^1.0.0-beta3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",

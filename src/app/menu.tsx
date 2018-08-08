@@ -1,4 +1,4 @@
-import React = require("react");
+import * as React from "react";
 import { Menu, Icon } from "antd";
 import { NavLink } from "react-router-dom";
 import { MenuModule } from "./modules";

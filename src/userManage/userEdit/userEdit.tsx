@@ -1,11 +1,7 @@
 import * as React from "react";
-import {
-  UserModule,
-  StoreModule,
-  UserEditManageModule
-} from "../../module/module";
+import { UserModule, StoreModule, UserEditManageModule } from "../../module/module";
 import { Dispatch } from "redux";
-import { Modal, Button } from "antd";
+import { Modal, Button, Form, Input, Icon } from "antd";
 let styles = require("./userEdit.less");
 
 export interface Props {
@@ -15,7 +11,7 @@ export interface Props {
   cancel: () => {};
 }
 
-export class UserEditComponent extends React.Component<Props, any> {
+class UserEditComponent extends React.Component<Props, any> {
   constructor(props: Props, context: any) {
     super(props, context);
   }
@@ -23,8 +19,13 @@ export class UserEditComponent extends React.Component<Props, any> {
   onUserNameChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.props.userNameChanged(e.target.value);
   };
-  onSave = () => {
-    this.props.save(this.props.userEditManage);
+  onSave = (e: any) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.save({ user: values });
+      }
+    });
   };
   onCancel = () => {
     this.props.cancel();
@@ -33,6 +34,8 @@ export class UserEditComponent extends React.Component<Props, any> {
   render() {
     let { isEditing, user, isWaiting } = this.props.userEditManage;
     user = user || { id: "", name: "" };
+
+    const { getFieldDecorator } = this.props.form;
 
     return (
       <Modal
@@ -49,28 +52,23 @@ export class UserEditComponent extends React.Component<Props, any> {
         ]}
       >
         <div className={styles.userEdit}>
-          <table>
-            <tbody>
-              <tr>
-                <td>编号:</td>
-                <td>
-                  <input type="text" value={user.id} readOnly />
-                </td>
-              </tr>
-              <tr>
-                <td>姓名:</td>
-                <td>
-                  <input
-                    type="text"
-                    value={user.name}
-                    onChange={this.onUserNameChanged}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Form layout="inline">
+            <Form.Item>
+              {getFieldDecorator("id", {
+                rules: [{ required: true, message: "请输入编号" }]
+              })(<Input prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />} placeholder="编号" />)}
+            </Form.Item>
+
+            <Form.Item>
+              {getFieldDecorator("name", {
+                rules: [{ required: true, message: "请输入姓名" }]
+              })(<Input prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />} placeholder="姓名" />)}
+            </Form.Item>
+          </Form>
         </div>
       </Modal>
     );
   }
 }
+
+export let UserEditComponentForm = Form.create()(UserEditComponent);

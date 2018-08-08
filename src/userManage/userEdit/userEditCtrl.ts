@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { Action, Dispatch, AnyAction } from "redux";
-import { UserEditComponent } from "./userEdit";
+import { UserEditComponentForm } from "./userEdit";
 import {
   UserModule,
   UserEditManageModule,
@@ -107,4 +107,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserEditComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(UserEditComponentForm);
