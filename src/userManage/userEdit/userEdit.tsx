@@ -2,16 +2,17 @@ import * as React from "react";
 import { UserModule, StoreModule, UserEditManageModule } from "../../module/module";
 import { Dispatch } from "redux";
 import { Modal, Button, Form, Input, Icon } from "antd";
+import { FormComponentProps } from "antd/lib/form";
 let styles = require("./userEdit.less");
 
-export interface Props {
+export interface FormProps extends FormComponentProps {
   userEditManage: UserEditManageModule;
   userNameChanged: (value: string) => {};
   save: (userEditManage: UserEditManageModule) => {};
   cancel: () => {};
 }
 
-class UserEditComponent extends React.Component<Props, any> {
+class UserEditComponent extends React.Component<FormProps, any> {
   constructor(props: Props, context: any) {
     super(props, context);
   }
