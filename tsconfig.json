@@ -1,5 +1,4 @@
 {
-  "include": ["src/**/*"],
   "compilerOptions": {
     "moduleResolution": "node",
     "noImplicitAny": true,
@@ -7,7 +6,7 @@
     "jsx": "react",
     "module": "commonjs",
     // "types" : ["node"],
-    "declaration": true
-  },
-  "exclude": ["node_modules", "lib", "es"]
+    "declaration": true,
+    "sourceMap": true,
+  }
 }
