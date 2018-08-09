@@ -72,4 +72,13 @@ class UserEditComponent extends React.Component<FormProps, any> {
   }
 }
 
-export let UserEditComponentForm = Form.create()(UserEditComponent);
+export let UserEditComponentForm = Form.create({
+  mapPropsToFields(props) {
+    if (props.userEditManage.user) {
+      return {
+        id: Form.createFormField(props.userEditManage.user.id),
+        name: Form.createFormField(props.userEditManage.user.name)
+      };
+    }
+  }
+})(UserEditComponent);
