@@ -7,9 +7,33 @@ let styles = require("./userEdit.less");
 
 export interface FormProps extends FormComponentProps {
   userEditManage: UserEditManageModule;
-  userNameChanged: (value: string) => {};
-  save: (userEditManage: UserEditManageModule) => {};
-  cancel: () => {};
+}
+
+function editSave(userData: UserModule) {
+  return function(dispatch: Dispatch) {
+    dispatch({
+      type: "user_edit_saving"
+    });
+
+    return new Promise((resolve1, reject1) => {
+      setTimeout(() => {
+        dispatch({
+          type: "user_edit_saved"
+        });
+        resolve1();
+      }, 500);
+    }).then(() => {
+      return new Promise((resolve3, reject3) => {
+        setTimeout(() => {
+          dispatch({
+            type: "user_saved",
+            userData
+          });
+          resolve3();
+        }, 500);
+      });
+    });
+  };
 }
 
 class UserEditComponent extends React.Component<FormProps, any> {
@@ -17,26 +41,24 @@ class UserEditComponent extends React.Component<FormProps, any> {
     super(props, context);
   }
 
-  onUserNameChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.userNameChanged(e.target.value);
-  };
   onSave = (e: any) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.save({ user: values });
+        this.props.dispatch(editSave(values));
       }
     });
   };
   onCancel = () => {
-    this.props.cancel();
+    this.props.dispatch({
+      type: "user_edit_cancel"
+    });
   };
 
   render() {
     let { isEditing, user, isWaiting } = this.props.userEditManage;
-    user = user || { id: "", name: "" };
 
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator, getFieldValue } = this.props.form;
 
     return (
       <Modal
@@ -76,9 +98,24 @@ export let UserEditComponentForm = Form.create({
   mapPropsToFields(props) {
     if (props.userEditManage.user) {
       return {
-        id: Form.createFormField(props.userEditManage.user.id),
-        name: Form.createFormField(props.userEditManage.user.name)
+        id: Form.createFormField({
+          value: props.userEditManage.user.id
+        }),
+        name: Form.createFormField({
+          value: props.userEditManage.user.name
+        })
       };
     }
+  },
+  onFieldsChange(props, fields) {
+    let data = {};
+    for (let key in fields) {
+      data[key] = fields[key].value;
+    }
+
+    props.dispatch({
+      type: "user_edit_field_changed",
+      data: data
+    });
   }
 })(UserEditComponent);

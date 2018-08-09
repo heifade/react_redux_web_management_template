@@ -3,7 +3,7 @@ import { resolve } from "path";
 
 export default async function() {
   let config: WebConfig = {
-    port: 8080,
+    port: 8081,
     entry: {
       index: resolve(__dirname, "./src/index")
     },
