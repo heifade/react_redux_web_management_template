@@ -58,7 +58,7 @@ class UserEditComponent extends React.Component<FormProps, any> {
 
   render() {
     let { isEditing, user, isWaiting } = this.props.userEditManage;
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const { getFieldDecorator, getFieldValue, getFieldError } = this.props.form;
 
     return (
       <Modal
@@ -98,28 +98,18 @@ let UserEditComponentForm = Form.create({
   mapPropsToFields(props) {
     if (props.userEditManage.user) {
       return {
-        id: Form.createFormField({
-          value: props.userEditManage.user.id
-        }),
-        name: Form.createFormField({
-          value: props.userEditManage.user.name
-        })
+        id: Form.createFormField(props.userEditManage.user.id),
+        name: Form.createFormField(props.userEditManage.user.name)
       };
     }
   },
   onFieldsChange(props, fields) {
-    let data = {};
-    for (let key in fields) {
-      data[key] = fields[key].value;
-    }
-
     props.dispatch({
       type: "user_edit_field_changed",
-      data: data
+      data: fields
     });
   }
 })(UserEditComponent);
-
 
 const mapStateToProps = (state: StoreModule, ownProps: any) => {
   return {

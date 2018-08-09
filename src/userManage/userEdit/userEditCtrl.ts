@@ -1,5 +1,6 @@
 import { Action, Dispatch, AnyAction } from "redux";
 import { UserModule, UserEditManageModule, StoreModule } from "../../module/module";
+import { f } from "../../util/modelToReducer";
 import { store } from "../../store";
 import { resolve } from "path";
 
@@ -12,10 +13,18 @@ let initState: UserEditManageModule = {
 export function userEditReducer(state = initState, action: Action): UserEditManageModule {
   switch (action.type) {
     case "user_edit":
+      let data = {};
+      for (let key in action.userData) {
+        data[key] = {
+          name: key,
+          value: action.userData[key]
+        };
+      }
+
       return {
         ...state,
         isEditing: true,
-        user: Reflect.get(action, "userData")
+        user: data
       };
     case "user_edit_field_changed":
       return {
@@ -45,3 +54,6 @@ export function userEditReducer(state = initState, action: Action): UserEditMana
       return state;
   }
 }
+
+
+f();
