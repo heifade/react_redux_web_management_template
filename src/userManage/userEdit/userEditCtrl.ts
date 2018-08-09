@@ -1,6 +1,4 @@
-import { connect } from "react-redux";
 import { Action, Dispatch, AnyAction } from "redux";
-import { UserEditComponentForm } from "./userEdit";
 import { UserModule, UserEditManageModule, StoreModule } from "../../module/module";
 import { store } from "../../store";
 import { resolve } from "path";
@@ -47,11 +45,3 @@ export function userEditReducer(state = initState, action: Action): UserEditMana
       return state;
   }
 }
-
-const mapStateToProps = (state: StoreModule, ownProps: any) => {
-  return {
-    userEditManage: state.userManage.userEditManage
-  };
-};
-
-export default connect(mapStateToProps)(UserEditComponentForm);

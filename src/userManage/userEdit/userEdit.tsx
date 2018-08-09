@@ -3,6 +3,7 @@ import { UserModule, StoreModule, UserEditManageModule } from "../../module/modu
 import { Dispatch } from "redux";
 import { Modal, Button, Form, Input, Icon } from "antd";
 import { FormComponentProps } from "antd/lib/form";
+import { connect } from "react-redux";
 let styles = require("./userEdit.less");
 
 export interface FormProps extends FormComponentProps {
@@ -57,7 +58,6 @@ class UserEditComponent extends React.Component<FormProps, any> {
 
   render() {
     let { isEditing, user, isWaiting } = this.props.userEditManage;
-
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     return (
@@ -94,7 +94,7 @@ class UserEditComponent extends React.Component<FormProps, any> {
   }
 }
 
-export let UserEditComponentForm = Form.create({
+let UserEditComponentForm = Form.create({
   mapPropsToFields(props) {
     if (props.userEditManage.user) {
       return {
@@ -119,3 +119,12 @@ export let UserEditComponentForm = Form.create({
     });
   }
 })(UserEditComponent);
+
+
+const mapStateToProps = (state: StoreModule, ownProps: any) => {
+  return {
+    userEditManage: state.userManage.userEditManage
+  };
+};
+
+export default connect(mapStateToProps)(UserEditComponentForm);
