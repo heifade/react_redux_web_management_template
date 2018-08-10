@@ -3,7 +3,10 @@ import { Spin, Table, Divider } from "antd";
 import { connect } from "react-redux";
 import { model as listModel } from "./userListModel";
 import { model as editModel } from "../userEdit/userEditModel";
+import UserEdit from "../userEdit/userEdit";
 import { FormComponentProps } from "antd/lib/form";
+
+
 let styles = require("./userList.less");
 
 interface Props extends FormComponentProps {
@@ -86,6 +89,8 @@ class UserListComponent extends React.Component<Props, any> {
         <Spin spinning={this.props.modelData.isWaiting}>
           <Table dataSource={dataSource} columns={columns} />
         </Spin>
+
+        <UserEdit />
       </div>
     );
   }
@@ -98,3 +103,5 @@ const mapStateToProps = (state: any, ownProps: any) => {
 };
 
 export default connect(mapStateToProps)(UserListComponent);
+
+

@@ -1,6 +1,7 @@
 import { MenuModule } from "./modules";
 import { Index } from "../index/index";
-import { UserManage } from "../userManage/userManage";
+// import { UserManage } from "../userManage/userManage";
+import userList from "../userManage/userList/userList"
 
 export let menuList: Array<MenuModule> = [
   { title: "主页", path: "/index", img: "home" },
@@ -11,5 +12,5 @@ export let menuList: Array<MenuModule> = [
 
 export let routeList: Array<{ path: string; component: any }> = [
   { path: "/index", component: Index }, 
-  { path: "/system/user", component: UserManage }
+  { path: "/system/user", component: userList }
 ];
