@@ -5,12 +5,13 @@ import { Hash } from "../../../app/hash";
 export let model = new ModelBase({
   namespace: "userEdit",
   initState: {
-    user: {},
-    isWaiting: false
+    user: null,
+    isShowWaiting: false,
+    isShowEditDialog: true
   },
   statePath: "user.userEdit",
   reducers: {
-    show(state: any, action: AnyAction) {
+    showEditDialog(state: any, action: AnyAction) {
       let data = new Hash();
       for (let key in action.userData) {
         data[key] = {
@@ -20,6 +21,7 @@ export let model = new ModelBase({
       }
       return {
         ...state,
+        isShowEditDialog: true,
         user: data
       };
     },
@@ -32,17 +34,23 @@ export let model = new ModelBase({
         }
       };
     },
-    saving(state: any, action: AnyAction) {
+    itemSaving(state: any, action: AnyAction) {
       return {
         ...state,
-        isWaiting: true
+        isShowWaiting: true
       };
     },
-    saved(state: any, action: AnyAction) {
+    itemSaved(state: any, action: AnyAction) {
       return {
         ...state,
-        isWaiting: false
+        isShowWaiting: false
       };
     },
+    editDialogClosing(state: any, action: AnyAction) {
+      return {
+        ...state,
+        isShowEditDialog: false
+      };
+    }
   }
 });

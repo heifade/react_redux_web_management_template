@@ -7,29 +7,9 @@ import { model as editModel } from "./userEditModel";
 import { model as listModel } from "../userList/userListModel";
 import { ComponentProps } from "../../../app/componentProps";
 import { wait } from "../../../app/utils";
+import { userListService } from "../userList/userListService";
 
 let styles = require("./userEdit.less");
-
-function editSave(userData: any) {
-  return async function(dispatch: Dispatch) {
-    dispatch({
-      type: editModel.getActionType("saving")
-    });
-
-    await wait(500);
-
-    dispatch({
-      type: editModel.getActionType("saved")
-    });
-
-    await wait(500);
-
-    dispatch({
-      type: listModel.getActionType("saved"),
-      userData
-    });
-  };
-}
 
 class UserEditComponent extends React.Component<ComponentProps, any> {
   constructor(props: ComponentProps, context: any) {
@@ -40,30 +20,70 @@ class UserEditComponent extends React.Component<ComponentProps, any> {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.dispatch(editSave(values));
+        this.props.dispatch(async (dispatch: Dispatch) => {
+          dispatch({
+            type: editModel.getActionType("itemSaving")
+          });
+
+          await userListService.saveUser(values);
+
+          dispatch({
+            type: editModel.getActionType("itemSaved")
+          });
+
+          dispatch({
+            type: editModel.getActionType("editDialogClosing")
+          });
+
+          dispatch({
+            type: listModel.getActionType("itemSaved")
+          });
+
+          dispatch({
+            type: listModel.getActionType("listFetching")
+          });
+
+          let userList = await userListService.getUserList();
+
+          dispatch({
+            type: listModel.getActionType("listFetched"),
+            userList
+          });
+        });
       }
     });
   };
-  onCancel = () => {
-    this.props.dispatch({
-      type: listModel.getActionType("closeEdit")
+  onClose = () => {
+    this.props.dispatch(async (dispatch: Dispatch) => {
+      dispatch({
+        type: editModel.getActionType("editDialogClosing")
+      });
+    });
+  };
+
+  onAfterClose = () => {
+    this.props.dispatch(async (dispatch: Dispatch) => {
+      dispatch({
+        type: listModel.getActionType("disposeEditDialog")
+      });
     });
   };
 
   render() {
-    let { isEditing, user, isWaiting } = this.props.modelData;
+    let { user, isShowWaiting, isShowEditDialog } = this.props.modelData;
     const { getFieldDecorator, getFieldValue, getFieldError } = this.props.form;
 
     return (
       <Modal
-        visible={true}
+        visible={isShowEditDialog}
         title={"用户信息编辑"}
-        onCancel={this.onCancel}
+        onCancel={this.onClose}
+        afterClose={this.onAfterClose}
         footer={[
-          <Button key="close" onClick={this.onCancel}>
+          <Button key="close" onClick={this.onClose}>
             关闭
           </Button>,
-          <Button key="save" onClick={this.onSave} loading={isWaiting}>
+          <Button key="save" onClick={this.onSave} loading={isShowWaiting}>
             保存
           </Button>
         ]}
@@ -105,7 +125,6 @@ let UserEditComponentForm = Form.create({
 })(UserEditComponent);
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  console.log(11, editModel.getState());
   return {
     modelData: editModel.getState()
   };
