@@ -1,7 +1,7 @@
 
 
 import { combineReducers } from "redux";
-import { modelToReducer } from "../util/modelToReducer";
+import { modelToReducer } from "../../app/modelToReducer";
 import { model as userListModel } from "./userList/userListModel";
 import { model as userEditModel } from "./userEdit/userEditModel";
 

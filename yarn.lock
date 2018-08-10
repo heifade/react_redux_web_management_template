@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/classnames@^2.2.6":
+  version "2.2.6"
+  resolved "https://registry.npmjs.org/@types/classnames/-/classnames-2.2.6.tgz#dbe8a666156d556ed018e15a4c65f08937c3f628"
+
 "@types/history@*":
   version "4.7.0"
   resolved "https://registry.npmjs.org/@types/history/-/history-4.7.0.tgz#2fac51050c68f7d6f96c5aafc631132522f4aa3f"

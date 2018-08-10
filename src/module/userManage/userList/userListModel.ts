@@ -1,5 +1,5 @@
 import { AnyAction } from "redux";
-import { ModelBase } from "../../util/modelBase";
+import { ModelBase } from "../../../app/modelBase";
 
 export let model = new ModelBase({
   namespace: "userList",

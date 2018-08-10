@@ -1,4 +1,4 @@
-import { ModelBase } from "./ModelBase";
+import { ModelBase } from "./modelBase";
 import { AnyAction } from "redux";
 
 export function modelToReducer(model: ModelBase): any {

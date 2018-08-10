@@ -1,5 +1,5 @@
 import { AnyAction } from "../../node_modules/redux";
-import { store } from "../store";
+import { store } from "./store";
 
 interface ModelBaseInit {
   namespace: string;

@@ -5,7 +5,7 @@ export default async function() {
   let config: WebConfig = {
     port: 8081,
     entry: {
-      index: resolve(__dirname, "./src/index")
+      index: resolve(__dirname, "./src/app/index")
     },
     html: [
       {

@@ -1,6 +1,6 @@
 import { AnyAction } from "redux";
-import { ModelBase } from "../../util/modelBase";
-import { Hash } from "../../common/Hash";
+import { ModelBase } from "../../../app/modelBase";
+import { Hash } from "../../../app/hash";
 
 export let model = new ModelBase({
   namespace: "userEdit",

@@ -1,7 +1,6 @@
 import { MenuModule } from "./modules";
-import { Index } from "../index/index";
-// import { UserManage } from "../userManage/userManage";
-import userList from "../userManage/userList/userList"
+import { Index } from "../module/index/index";
+import userList from "../module/userManage/userList/userList"
 
 export let menuList: Array<MenuModule> = [
   { title: "主页", path: "/index", img: "home" },
