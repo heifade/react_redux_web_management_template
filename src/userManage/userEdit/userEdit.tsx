@@ -8,10 +8,10 @@ import { model as listModel } from "../userList/userListModel";
 let styles = require("./userEdit.less");
 
 interface Props extends FormComponentProps {
-  userEditManage: UserEditManageModule;
+  modelData: any;
 }
 
-function editSave(userData: UserModule) {
+function editSave(userData: any) {
   return function(dispatch: Dispatch) {
     dispatch({
       type: editModel.getActionType("saving")
@@ -58,7 +58,7 @@ class UserEditComponent extends React.Component<Props, any> {
   };
 
   render() {
-    let { isEditing, user, isWaiting } = this.props.userEditManage;
+    let { isEditing, user, isWaiting } = this.props.modelData;
     const { getFieldDecorator, getFieldValue, getFieldError } = this.props.form;
 
     return (
@@ -97,24 +97,24 @@ class UserEditComponent extends React.Component<Props, any> {
 
 let UserEditComponentForm = Form.create({
   mapPropsToFields(props) {
-    if (props.userEditManage.user) {
+    if (props.modelData.user) {
       return {
-        id: Form.createFormField(props.userEditManage.user.id),
-        name: Form.createFormField(props.userEditManage.user.name)
+        id: Form.createFormField(props.modelData.user.id),
+        name: Form.createFormField(props.modelData.user.name)
       };
     }
   },
   onFieldsChange(props, fields) {
     props.dispatch({
-      type: "user_edit_fieldChanged",
+      type: editModel.getActionType("fieldChanged"),
       data: fields
     });
   }
 })(UserEditComponent);
 
-const mapStateToProps = (state: StoreModule, ownProps: any) => {
+const mapStateToProps = (state: any, ownProps: any) => {
   return {
-    userEditManage: editModel.getState()
+    modelData: editModel.getState()
   };
 };
 

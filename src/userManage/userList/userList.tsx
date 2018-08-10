@@ -7,7 +7,7 @@ import { FormComponentProps } from "antd/lib/form";
 let styles = require("./userList.less");
 
 interface Props extends FormComponentProps {
-  userListManage: any;
+  modelData: any;
 }
 
 class UserListComponent extends React.Component<Props, any> {
@@ -51,7 +51,7 @@ class UserListComponent extends React.Component<Props, any> {
   }
 
   render() {
-    const dataSource = this.props.userListManage.userList.map((data, index) => ({ ...data, key: index }));
+    const dataSource = this.props.modelData.userList.map((data, index) => ({ ...data, key: index }));
     const columns = [
       {
         title: "编号",
@@ -83,7 +83,7 @@ class UserListComponent extends React.Component<Props, any> {
 
     return (
       <div className={styles.userList}>
-        <Spin spinning={this.props.userListManage.isWaiting}>
+        <Spin spinning={this.props.modelData.isWaiting}>
           <Table dataSource={dataSource} columns={columns} />
         </Spin>
       </div>
@@ -93,7 +93,7 @@ class UserListComponent extends React.Component<Props, any> {
 
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
-    userListManage: listModel.getState()
+    modelData: listModel.getState()
   };
 };
 
