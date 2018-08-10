@@ -2,7 +2,12 @@ import { ModelBase } from "./modelBase";
 import { AnyAction } from "redux";
 
 export function modelToReducer(model: ModelBase): any {
-  let reducer = (state = model.initState, action: AnyAction) => {
+  let reducer = (state: any, action: AnyAction) => {
+    if (state == null) {
+      state = model.initState;
+    }
+    
+
     let start = model.namespace + "_";
     if (action.type.startsWith(start)) {
       let fun = action.type.substr(start.length);

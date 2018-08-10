@@ -1,11 +1,7 @@
 import { FormComponentProps } from "antd/lib/form";
-
-interface dispatchProps {
-  type: string;
-  [key: string]: any;
-}
+import { Dispatch } from "redux";
 
 export interface ComponentProps extends FormComponentProps {
   modelData: any;
-  dispatch: (props: dispatchProps) => {};
+  dispatch: Dispatch;
 }

@@ -5,11 +5,10 @@ import { Hash } from "../../../app/hash";
 export let model = new ModelBase({
   namespace: "userEdit",
   initState: {
-    user: null,
-    isEditing: false,
+    user: {},
     isWaiting: false
   },
-  statePath: "userManage.userEditManage",
+  statePath: "user.userEdit",
   reducers: {
     show(state: any, action: AnyAction) {
       let data = new Hash();
@@ -21,7 +20,6 @@ export let model = new ModelBase({
       }
       return {
         ...state,
-        isEditing: true,
         user: data
       };
     },
@@ -43,15 +41,8 @@ export let model = new ModelBase({
     saved(state: any, action: AnyAction) {
       return {
         ...state,
-        isEditing: false,
         isWaiting: false
       };
     },
-    cancel(state: any, action: AnyAction) {
-      return {
-        ...state,
-        isEditing: false
-      };
-    }
   }
 });

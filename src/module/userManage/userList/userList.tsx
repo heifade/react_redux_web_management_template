@@ -5,19 +5,33 @@ import { model as listModel } from "./userListModel";
 import { model as editModel } from "../userEdit/userEditModel";
 import UserEdit from "../userEdit/userEdit";
 import { ComponentProps } from "../../../app/componentProps";
+import { Dispatch } from "../../../../node_modules/redux";
+import { wait } from "../../../app/utils";
 
 let styles = require("./userList.less");
+
+function showEdit(user: any) {
+  return async function(dispatch: Dispatch) {
+    dispatch({
+      type: listModel.getActionType("showEdit")
+    });
+
+    await wait(500);
+
+    dispatch({
+      type: editModel.getActionType("show"),
+      userData: user
+    });
+  };
+}
 
 class UserListComponent extends React.Component<ComponentProps, any> {
   constructor(props: ComponentProps, context: any) {
     super(props, context);
   }
 
-  edit = (user: any) => {
-    this.props.dispatch({
-      type: editModel.getActionType("show"),
-      userData: user
-    });
+  onEdit = (user: any) => {
+    this.props.dispatch(showEdit(user));
   };
   delete = (user: any) => {
     this.props.dispatch({
@@ -67,7 +81,7 @@ class UserListComponent extends React.Component<ComponentProps, any> {
         width: 120,
         render: (text: any, record: any) => (
           <span>
-            <a href="javascript:;" onClick={() => this.edit(record)}>
+            <a href="javascript:;" onClick={() => this.onEdit(record)}>
               编辑
             </a>
             <Divider type="vertical" />
@@ -85,7 +99,7 @@ class UserListComponent extends React.Component<ComponentProps, any> {
           <Table dataSource={dataSource} columns={columns} />
         </Spin>
 
-        <UserEdit />
+        {this.props.modelData.isEditing && <UserEdit />}
       </div>
     );
   }

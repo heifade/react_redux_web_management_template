@@ -6,31 +6,27 @@ import { connect } from "react-redux";
 import { model as editModel } from "./userEditModel";
 import { model as listModel } from "../userList/userListModel";
 import { ComponentProps } from "../../../app/componentProps";
+import { wait } from "../../../app/utils";
+
 let styles = require("./userEdit.less");
 
 function editSave(userData: any) {
-  return function(dispatch: Dispatch) {
+  return async function(dispatch: Dispatch) {
     dispatch({
       type: editModel.getActionType("saving")
     });
 
-    return new Promise((resolve1, reject1) => {
-      setTimeout(() => {
-        dispatch({
-          type: editModel.getActionType("saved")
-        });
-        resolve1();
-      }, 500);
-    }).then(() => {
-      return new Promise((resolve3, reject3) => {
-        setTimeout(() => {
-          dispatch({
-            type: listModel.getActionType("saved"),
-            userData
-          });
-          resolve3();
-        }, 500);
-      });
+    await wait(500);
+
+    dispatch({
+      type: editModel.getActionType("saved")
+    });
+
+    await wait(500);
+
+    dispatch({
+      type: listModel.getActionType("saved"),
+      userData
     });
   };
 }
@@ -50,7 +46,7 @@ class UserEditComponent extends React.Component<ComponentProps, any> {
   };
   onCancel = () => {
     this.props.dispatch({
-      type: editModel.getActionType("cancel")
+      type: listModel.getActionType("closeEdit")
     });
   };
 
@@ -60,7 +56,7 @@ class UserEditComponent extends React.Component<ComponentProps, any> {
 
     return (
       <Modal
-        visible={isEditing}
+        visible={true}
         title={"用户信息编辑"}
         onCancel={this.onCancel}
         footer={[
@@ -79,7 +75,6 @@ class UserEditComponent extends React.Component<ComponentProps, any> {
                 rules: [{ required: true, message: "请输入编号" }]
               })(<Input prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />} placeholder="编号" />)}
             </Form.Item>
-
             <Form.Item>
               {getFieldDecorator("name", {
                 rules: [{ required: true, message: "请输入姓名" }]
@@ -110,6 +105,7 @@ let UserEditComponentForm = Form.create({
 })(UserEditComponent);
 
 const mapStateToProps = (state: any, ownProps: any) => {
+  console.log(11, editModel.getState());
   return {
     modelData: editModel.getState()
   };

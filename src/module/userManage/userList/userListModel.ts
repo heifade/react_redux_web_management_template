@@ -5,9 +5,10 @@ export let model = new ModelBase({
   namespace: "userList",
   initState: {
     userList: [],
-    isWaiting: false
+    isWaiting: false,
+    isEditing: false
   },
-  statePath: "userManage.userListManage",
+  statePath: "user.userList",
   reducers: {
     fetching(state: any, action: AnyAction) {
       return {
@@ -20,6 +21,23 @@ export let model = new ModelBase({
         ...state,
         userList: action.userList,
         isWaiting: false
+      };
+    },
+    showEdit(state: any, action: AnyAction) {
+      let data = {
+        ...state,
+        isEditing: true,
+        userEdit: {
+          user: action.userData
+        }
+      };
+
+      return data;
+    },
+    closeEdit(state: any, action: AnyAction) {
+      return {
+        ...state,
+        isEditing: false
       };
     },
     deleting(state: any, action: AnyAction) {
@@ -46,6 +64,7 @@ export let model = new ModelBase({
 
       return {
         ...state,
+        isEditing: false,
         userList: userList
           .splice(0, index)
           .concat([newData])
@@ -54,6 +73,3 @@ export let model = new ModelBase({
     }
   }
 });
-
-
-

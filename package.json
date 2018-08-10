@@ -26,8 +26,10 @@
   },
   "dependencies": {
     "@types/classnames": "^2.2.6",
+    "@types/lodash": "^4.14.116",
     "classnames": "^2.2.6",
     "happywork-config": "^1.0.0-beta3",
+    "lodash": "^4.17.10",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
