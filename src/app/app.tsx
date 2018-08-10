@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import { Layout } from "antd";
 import { Route, Router, Switch, BrowserRouter, HashRouter } from "react-router-dom";
 import { store } from "../store";
-import "antd/dist/antd.css";
 import * as classname from "classnames";
 import { MenuProps, MenuComponent } from "./menu";
 import { BreadcrumbComponent } from "./breadcrumb";

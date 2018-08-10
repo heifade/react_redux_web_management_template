@@ -1,8 +1,8 @@
 import { Action, combineReducers } from "redux";
-import { userListReducer } from "./userList/userListCtrl";
-import { userEditReducer } from "./userEdit/userEditCtrl";
+import { model as userListModel } from "./userList/userListModel";
+import { model as userEditModel } from "./userEdit/userEditModel";
 import { connect } from "react-redux";
-
+import { modelToReducer } from "../util/modelToReducer";
 
 // export function userManageReducer(state = new UserManageModule(), action: Action) {
 //   return {
@@ -11,8 +11,7 @@ import { connect } from "react-redux";
 //   }
 // }
 
-
 export let userManageReducer = combineReducers({
-  userListManage: userListReducer,
-  userEditManage: userEditReducer
+  userListManage: modelToReducer(userListModel),
+  userEditManage: modelToReducer(userEditModel)
 });

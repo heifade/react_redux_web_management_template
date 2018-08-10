@@ -1,6 +1,6 @@
 import { createStore, Action, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk"; // 允许我们 dispatch() 函数
-import { userManageReducer } from "./userManage/userManageCtrl";
+import { userManageReducer } from "./userManage/userManageModel";
 import { createLogger } from "redux-logger";
 
 // export default function reducer(state = new StoreModule(), action: Action) {

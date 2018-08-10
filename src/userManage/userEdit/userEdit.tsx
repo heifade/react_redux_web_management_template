@@ -1,25 +1,26 @@
 import * as React from "react";
-import { UserModule, StoreModule, UserEditManageModule } from "../../module/module";
 import { Dispatch } from "redux";
 import { Modal, Button, Form, Input, Icon } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { connect } from "react-redux";
+import { model as editModel } from "./userEditModel";
+import { model as listModel } from "../userList/userListModel";
 let styles = require("./userEdit.less");
 
-export interface FormProps extends FormComponentProps {
+interface Props extends FormComponentProps {
   userEditManage: UserEditManageModule;
 }
 
 function editSave(userData: UserModule) {
   return function(dispatch: Dispatch) {
     dispatch({
-      type: "user_edit_saving"
+      type: editModel.getActionType("saving")
     });
 
     return new Promise((resolve1, reject1) => {
       setTimeout(() => {
         dispatch({
-          type: "user_edit_saved"
+          type: editModel.getActionType("saved")
         });
         resolve1();
       }, 500);
@@ -27,7 +28,7 @@ function editSave(userData: UserModule) {
       return new Promise((resolve3, reject3) => {
         setTimeout(() => {
           dispatch({
-            type: "user_saved",
+            type: listModel.getActionType("saved"),
             userData
           });
           resolve3();
@@ -37,7 +38,7 @@ function editSave(userData: UserModule) {
   };
 }
 
-class UserEditComponent extends React.Component<FormProps, any> {
+class UserEditComponent extends React.Component<Props, any> {
   constructor(props: Props, context: any) {
     super(props, context);
   }
@@ -52,7 +53,7 @@ class UserEditComponent extends React.Component<FormProps, any> {
   };
   onCancel = () => {
     this.props.dispatch({
-      type: "user_edit_cancel"
+      type: editModel.getActionType("cancel")
     });
   };
 
@@ -105,7 +106,7 @@ let UserEditComponentForm = Form.create({
   },
   onFieldsChange(props, fields) {
     props.dispatch({
-      type: "user_edit_field_changed",
+      type: "user_edit_fieldChanged",
       data: fields
     });
   }
@@ -113,7 +114,7 @@ let UserEditComponentForm = Form.create({
 
 const mapStateToProps = (state: StoreModule, ownProps: any) => {
   return {
-    userEditManage: state.userManage.userEditManage
+    userEditManage: editModel.getState()
   };
 };
 
