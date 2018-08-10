@@ -5,11 +5,8 @@ import { FormComponentProps } from "antd/lib/form";
 import { connect } from "react-redux";
 import { model as editModel } from "./userEditModel";
 import { model as listModel } from "../userList/userListModel";
+import { ComponentProps } from "../../../app/componentProps";
 let styles = require("./userEdit.less");
-
-interface Props extends FormComponentProps {
-  modelData: any;
-}
 
 function editSave(userData: any) {
   return function(dispatch: Dispatch) {
@@ -38,8 +35,8 @@ function editSave(userData: any) {
   };
 }
 
-class UserEditComponent extends React.Component<Props, any> {
-  constructor(props: Props, context: any) {
+class UserEditComponent extends React.Component<ComponentProps, any> {
+  constructor(props: ComponentProps, context: any) {
     super(props, context);
   }
 

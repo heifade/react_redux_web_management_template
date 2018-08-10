@@ -4,17 +4,12 @@ import { connect } from "react-redux";
 import { model as listModel } from "./userListModel";
 import { model as editModel } from "../userEdit/userEditModel";
 import UserEdit from "../userEdit/userEdit";
-import { FormComponentProps } from "antd/lib/form";
-
+import { ComponentProps } from "../../../app/componentProps";
 
 let styles = require("./userList.less");
 
-interface Props extends FormComponentProps {
-  modelData: any;
-}
-
-class UserListComponent extends React.Component<Props, any> {
-  constructor(props: Props, context: any) {
+class UserListComponent extends React.Component<ComponentProps, any> {
+  constructor(props: ComponentProps, context: any) {
     super(props, context);
   }
 
@@ -103,5 +98,3 @@ const mapStateToProps = (state: any, ownProps: any) => {
 };
 
 export default connect(mapStateToProps)(UserListComponent);
-
-
