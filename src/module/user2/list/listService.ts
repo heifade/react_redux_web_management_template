@@ -1,6 +1,6 @@
 import { wait } from "../../../app/utils";
 
-export let userListService = {
+export let listService = {
   async init() {
     // await wait(300);
     let list = new Array<any>();
@@ -34,3 +34,6 @@ export let userListService = {
     window.localStorage.setItem("userList", JSON.stringify(userList));
   }
 };
+
+
+listService.init();

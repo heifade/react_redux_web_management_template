@@ -19,7 +19,7 @@ class UserListComponent extends React.Component<ComponentProps, any> {
   onShowEdit = (user: any) => {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
-        type: listModel.getActionType("itemFetching")
+        type: listModel.getActionType("showLoadding")
       });
 
       let userData = await userListService.getUser(user.id);
@@ -34,25 +34,17 @@ class UserListComponent extends React.Component<ComponentProps, any> {
       });
 
       dispatch({
-        type: listModel.getActionType("itemFetched")
+        type: listModel.getActionType("hideLoading")
       });
     });
   };
   onDelete = (user: any) => {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
-        type: listModel.getActionType("itemDeleting")
+        type: listModel.getActionType("showLoadding")
       });
 
       await userListService.deleteUser(user.id);
-
-      dispatch({
-        type: listModel.getActionType("itemDeleted")
-      });
-
-      dispatch({
-        type: listModel.getActionType("listFetching")
-      });
 
       let userList = await userListService.getUserList();
 
@@ -60,13 +52,17 @@ class UserListComponent extends React.Component<ComponentProps, any> {
         type: listModel.getActionType("listFetched"),
         userList
       });
+
+      dispatch({
+        type: listModel.getActionType("hideLoading")
+      });
     });
   };
 
   componentDidMount() {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
-        type: listModel.getActionType("listFetching")
+        type: listModel.getActionType("showLoadding")
       });
 
       await userListService.init();
@@ -75,6 +71,10 @@ class UserListComponent extends React.Component<ComponentProps, any> {
       dispatch({
         type: listModel.getActionType("listFetched"),
         userList
+      });
+
+      dispatch({
+        type: listModel.getActionType("hideLoading")
       });
     });
   }
@@ -112,7 +112,7 @@ class UserListComponent extends React.Component<ComponentProps, any> {
 
     return (
       <div className={styles.userList}>
-        <Spin spinning={this.props.modelData.isShowWaiting}>
+        <Spin spinning={this.props.modelData.isShowLoading}>
           <Table dataSource={dataSource} columns={columns} />
         </Spin>
 

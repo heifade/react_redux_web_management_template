@@ -5,36 +5,32 @@ export let model = new ModelBase({
   namespace: "userList",
   initState: {
     userList: [],
-    isShowWaiting: false,
+    isShowLoading: false,
     isShowEditDialog: false
   },
   statePath: "user.userList",
   reducers: {
-    listFetching(state: any, action: AnyAction) {
+    showLoadding(state: any, action: AnyAction) {
       return {
         ...state,
-        isShowWaiting: true
+        isShowLoading: true
       };
     },
+
+    hideLoading(state: any, action: AnyAction) {
+      return {
+        ...state,
+        isShowLoading: false
+      };
+    },
+
     listFetched(state: any, action: AnyAction) {
       return {
         ...state,
-        userList: action.userList,
-        isShowWaiting: false
+        userList: action.userList
       };
     },
-    itemFetching(state: any, action: AnyAction) {
-      return {
-        ...state,
-        isShowWaiting: true
-      }
-    },
-    itemFetched(state: any, action: AnyAction) {
-      return {
-        ...state,
-        isShowWaiting: false
-      }
-    },
+
     showEditDialog(state: any, action: AnyAction) {
       return {
         ...state,
@@ -47,23 +43,7 @@ export let model = new ModelBase({
         isShowEditDialog: false
       };
     },
-    itemDeleting(state: any, action: AnyAction) {
-      return {
-        ...state,
-        isShowWaiting: true
-      };
-    },
-    itemDeleted(state: any, action: AnyAction) {
-      return {
-        ...state,
-        isShowWaiting: false
-      };
-    },
-    itemSaved(state: any, action: AnyAction) {
-      return {
-        ...state,
-        isShowWaiting: false
-      };
-    }
+
+
   }
 });

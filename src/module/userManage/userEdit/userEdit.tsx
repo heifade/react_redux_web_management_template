@@ -22,13 +22,13 @@ class UserEditComponent extends React.Component<ComponentProps, any> {
       if (!err) {
         this.props.dispatch(async (dispatch: Dispatch) => {
           dispatch({
-            type: editModel.getActionType("itemSaving")
+            type: editModel.getActionType("showSaveBtnLoadding")
           });
 
           await userListService.saveUser(values);
 
           dispatch({
-            type: editModel.getActionType("itemSaved")
+            type: editModel.getActionType("hideSaveBtnLoading")
           });
 
           dispatch({
@@ -36,11 +36,7 @@ class UserEditComponent extends React.Component<ComponentProps, any> {
           });
 
           dispatch({
-            type: listModel.getActionType("itemSaved")
-          });
-
-          dispatch({
-            type: listModel.getActionType("listFetching")
+            type: listModel.getActionType("showLoadding")
           });
 
           let userList = await userListService.getUserList();
@@ -48,6 +44,10 @@ class UserEditComponent extends React.Component<ComponentProps, any> {
           dispatch({
             type: listModel.getActionType("listFetched"),
             userList
+          });
+
+          dispatch({
+            type: listModel.getActionType("hideLoading")
           });
         });
       }
@@ -70,7 +70,7 @@ class UserEditComponent extends React.Component<ComponentProps, any> {
   };
 
   render() {
-    let { user, isShowWaiting, isShowEditDialog } = this.props.modelData;
+    let { user, isShowSaveBtnLoading, isShowEditDialog } = this.props.modelData;
     const { getFieldDecorator, getFieldValue, getFieldError } = this.props.form;
 
     return (
@@ -83,7 +83,7 @@ class UserEditComponent extends React.Component<ComponentProps, any> {
           <Button key="close" onClick={this.onClose}>
             关闭
           </Button>,
-          <Button key="save" onClick={this.onSave} loading={isShowWaiting}>
+          <Button key="save" onClick={this.onSave} loading={isShowSaveBtnLoading}>
             保存
           </Button>
         ]}

@@ -6,11 +6,25 @@ export let model = new ModelBase({
   namespace: "userEdit",
   initState: {
     user: null,
-    isShowWaiting: false,
+    isShowSaveBtnLoading: false,
     isShowEditDialog: true
   },
   statePath: "user.userEdit",
   reducers: {
+    showSaveBtnLoadding(state: any, action: AnyAction) {
+      return {
+        ...state,
+        isShowSaveBtnLoading: true
+      };
+    },
+
+    hideSaveBtnLoading(state: any, action: AnyAction) {
+      return {
+        ...state,
+        isShowSaveBtnLoading: false
+      };
+    },
+
     showEditDialog(state: any, action: AnyAction) {
       let data = new Hash();
       for (let key in action.userData) {
@@ -34,18 +48,7 @@ export let model = new ModelBase({
         }
       };
     },
-    itemSaving(state: any, action: AnyAction) {
-      return {
-        ...state,
-        isShowWaiting: true
-      };
-    },
-    itemSaved(state: any, action: AnyAction) {
-      return {
-        ...state,
-        isShowWaiting: false
-      };
-    },
+
     editDialogClosing(state: any, action: AnyAction) {
       return {
         ...state,
