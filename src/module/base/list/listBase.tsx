@@ -76,7 +76,6 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
   }
 }
 
-
 function mapStateToProps(listModel: ModelBase) {
   return (state: any, ownProps: any) => {
     return {
