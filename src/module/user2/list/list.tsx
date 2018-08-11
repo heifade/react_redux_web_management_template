@@ -1,7 +1,8 @@
 import * as React from "react";
 import { ListBaseComponent, connectList } from "../../base/list/listBase";
 import { ComponentProps } from "../../../app/componentProps";
-import { Spin, Table, Divider } from "antd";
+import { Dispatch } from "redux";
+import { Spin, Table, Divider, Row, Col, Input, Button, Select, message } from "antd";
 import { model as listModel } from "./listModel";
 import { model as editModel } from "../edit/editModel";
 import { listService } from "./listService";
@@ -28,9 +29,34 @@ class ListComponent extends ListBaseComponent {
     return await listService.deleteUser(data.id);
   }
 
+  onCheckHandle = (data: any) => {
+    this.props.dispatch(async (dispatch: Dispatch) => {
+      dispatch({
+        type: this.listModel.getActionType("showLoadding") // 显示列表 loading
+      });
+      let result = await listService.checkUser(data);
+      if (result.success) {
+        let result = await this.onFetch();
+        if (result.success) {
+          dispatch({
+            type: this.listModel.getActionType("listFetched"), // 列表填充数据
+            list: result.data
+          });
+        } else {
+          message.error(result.message || "获取数据失败！");
+        }
+      } else {
+        message.error(result.message || "操作失败！");
+      }
+      dispatch({
+        type: this.listModel.getActionType("hideLoading") // 隐藏列表 loading
+      });
+    });
+  };
+
   render() {
     const { list, isShowLoading, isShowEditDialog } = this.props.modelData;
-    const dataSource = list.map((data: any, index: number) => ({ ...data, key: index }));
+    const dataSource = list.map((data: any, index: number) => ({ ...data, key: index, checkState: data.checked ? "已审核" : "未审核" }));
     const columns = [
       {
         title: "编号",
@@ -44,8 +70,13 @@ class ListComponent extends ListBaseComponent {
       },
       {
         title: "年龄",
-        dataIndex: "age",
-        key: "age"
+        dataIndex: "sex",
+        key: "sex"
+      },
+      {
+        title: "审核状态",
+        dataIndex: "checkState",
+        key: "checkState"
       },
       {
         title: "操作",
@@ -60,17 +91,53 @@ class ListComponent extends ListBaseComponent {
             <a href="javascript:;" onClick={() => this.onDeleteHandle(record)}>
               删除
             </a>
+            {!record.checked && (
+              <React.Fragment>
+                <Divider type="vertical" />
+                <a href="javascript:;" onClick={() => this.onCheckHandle(record)}>
+                  审核
+                </a>
+              </React.Fragment>
+            )}
           </span>
         )
       }
     ];
 
+    let conditionSpan = {
+      xs: 22,
+      sm: 11,
+      md: 11,
+      lg: 7,
+      xl: 5
+    };
+
     return (
-      <div className={styles.userList}>
-        <Spin spinning={isShowLoading}>
-          <Table dataSource={dataSource} columns={columns} />
-        </Spin>
-        {isShowEditDialog && <EditDialog />}
+      <div>
+        <div className={styles.condition}>
+          <Row gutter={16}>
+            <Col {...conditionSpan}>
+              <Input addonBefore="编号" />
+            </Col>
+            <Col {...conditionSpan}>
+              <Input addonBefore="姓名" />
+            </Col>
+            <Col {...conditionSpan}>
+              <Input addonBefore="性别" />
+            </Col>
+            <Col xl={2}>
+              <Button type="primary" icon="search">
+                查询
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        <div className={styles.userList}>
+          <Spin spinning={isShowLoading}>
+            <Table dataSource={dataSource} columns={columns} />
+          </Spin>
+          {isShowEditDialog && <EditDialog />}
+        </div>
       </div>
     );
   }

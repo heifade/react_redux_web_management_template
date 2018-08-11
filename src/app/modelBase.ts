@@ -47,4 +47,8 @@ export class ModelBase {
 
     return state;
   }
+
+  public addReducer(key: string, reducer: any) {
+    this.reducers[key] = reducer;
+  }
 }

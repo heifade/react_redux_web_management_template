@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ComponentProps } from "../../../app/componentProps";
 import { EditBaseComponent, connectForm, ModalWdith } from "../../base/edit/editBase";
-import { Form, Input, Icon } from "antd";
+import { Form, Input, Icon, Select } from "antd";
 import { model as listModel } from "../list/listModel";
 import { model as editModel } from "./editModel";
 import { listService } from "../list/listService";
@@ -42,9 +42,14 @@ class EditComponent extends EditBaseComponent {
             })(<Input prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />} placeholder="姓名" />)}
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator("age", {
-              rules: [{ required: true, message: "请输入年龄" }]
-            })(<Input prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />} placeholder="姓名" />)}
+            {getFieldDecorator("sex", {
+              rules: [{ required: true, message: "请输入性别" }]
+            })(
+              <Select defaultValue="男" style={{ width: 120 }}>
+                <Select.Option value="男">男</Select.Option>
+                <Select.Option value="女">女</Select.Option>
+              </Select>
+            )}
           </Form.Item>
         </Form>
       </div>

@@ -4,7 +4,7 @@ export let listService = {
   async init() {
     let list = new Array<any>();
     for (let i = 0; i < 1000; i++) {
-      list.push({ id: `${i}`, name: `name${i}`, age: i + 20 });
+      list.push({ id: `${i}`, name: `name${i}`, sex: i % 2 ? "男" : "女", checked: i % 2 === 1 });
     }
 
     window.localStorage.setItem("userList", JSON.stringify(list));
@@ -46,12 +46,24 @@ export let listService = {
     let userList = await this.getUserListData();
     let user = userList.find((item: any) => item.id === userData.id);
     user.name = userData.name;
-    user.age = userData.age;
+    user.sex = userData.sex;
     window.localStorage.setItem("userList", JSON.stringify(userList));
 
     return {
       success: true,
       message: "由于某某原因，保存失败!"
+    };
+  },
+
+  async checkUser(userData: any) {
+    let userList = await this.getUserListData();
+    let user = userList.find((item: any) => item.id === userData.id);
+    user.checked = true;
+    window.localStorage.setItem("userList", JSON.stringify(userList));
+
+    return {
+      success: false,
+      message: "由于某某原因，审核失败!"
     };
   }
 };
