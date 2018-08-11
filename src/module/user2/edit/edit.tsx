@@ -27,7 +27,7 @@ class EditComponent extends EditBaseComponent {
 
     return this.getJsx(
       {
-        title: "用户信息编辑",
+        title: "用户信息编辑"
       },
       <div className={styles.userEdit}>
         <Form layout="inline">

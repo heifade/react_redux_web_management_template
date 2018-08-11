@@ -57,10 +57,15 @@ export abstract class EditBaseComponent extends React.Component<ComponentProps, 
               type: this.listModel.getActionType("showLoadding")
             });
 
-            dispatch({
-              type: this.listModel.getActionType("listFetched"),
-              list: await this.onFetch()
-            });
+            let resultFetch = await this.onFetch();
+            if (resultFetch.success) {
+              dispatch({
+                type: this.listModel.getActionType("listFetched"),
+                list: resultFetch.data
+              });
+            } else {
+              message.error(result.message || "获取数据失败！");
+            }
 
             dispatch({
               type: this.listModel.getActionType("hideLoading")

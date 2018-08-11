@@ -24,25 +24,33 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
   onShowEditHandle = (data: any) => {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
-        type: this.listModel.getActionType("showLoadding")
+        type: this.listModel.getActionType("showLoadding") // 显示列表 loading
       });
 
-      dispatch({
-        type: this.listModel.getActionType("showEditDialog")
-      });
+      let result = await this.onGetDetail(data);
+      if (result.success) {
+        dispatch({
+          type: this.listModel.getActionType("showEditDialog") // 初始化编辑弹框
+        });
 
-      dispatch({
-        type: this.editModel.getActionType("hideSaveBtnLoading")
-      });
+        dispatch({
+          type: this.editModel.getActionType("hideSaveBtnLoading") // 隐藏保存按钮 loading
+        });
 
-      dispatch({
-        type: this.editModel.getActionType("showEditDialog"),
-        data: await this.onGetDetail(data)
-      });
+        dispatch({
+          type: this.editModel.getActionType("showEditDialog"), // 显示编辑弹框
+          data: result.data
+        });
 
-      dispatch({
-        type: this.listModel.getActionType("hideLoading")
-      });
+        dispatch({
+          type: this.listModel.getActionType("hideLoading") // 隐藏列表 loading
+        });
+      } else {
+        dispatch({
+          type: this.listModel.getActionType("hideLoading") // 隐藏列表 loading
+        });
+        message.error(result.message || "获取数据失败！");
+      }
     });
   };
   onDeleteHandle = (data: any) => {
@@ -55,20 +63,23 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
           let result = await this.onDelete(data);
           if (result.success) {
             dispatch({
-              type: this.listModel.getActionType("showLoadding")
-            });
-            dispatch({
-              type: this.listModel.getActionType("listFetched"),
-              list: await this.onFetch()
+              type: this.listModel.getActionType("showLoadding") // 显示列表 loading
             });
 
+            let result = await this.onFetch();
+            if (result.success) {
+              dispatch({
+                type: this.listModel.getActionType("listFetched"), // 列表填充数据
+                list: result.data
+              });
+            } else {
+              message.error(result.message || "获取数据失败！");
+            }
+
             dispatch({
-              type: this.listModel.getActionType("hideLoading")
+              type: this.listModel.getActionType("hideLoading") // 隐藏列表 loading
             });
           } else {
-            dispatch({
-              type: this.listModel.getActionType("hideLoading")
-            });
             message.error(result.message || "操作失败！");
             throw new Error(); // 抛出错，是为了不关掉删除确认框
           }
@@ -80,17 +91,25 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
   componentDidMount() {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
-        type: this.listModel.getActionType("showLoadding")
+        type: this.listModel.getActionType("showLoadding") // 显示列表 loading
       });
 
-      dispatch({
-        type: this.listModel.getActionType("listFetched"),
-        list: await this.onFetch()
-      });
+      let result = await this.onFetch();
+      if (result.success) {
+        dispatch({
+          type: this.listModel.getActionType("listFetched"), // 列表填充数据
+          list: result.data
+        });
 
-      dispatch({
-        type: this.listModel.getActionType("hideLoading")
-      });
+        dispatch({
+          type: this.listModel.getActionType("hideLoading") // 隐藏列表 loading
+        });
+      } else {
+        dispatch({
+          type: this.listModel.getActionType("hideLoading") // 隐藏列表 loading
+        });
+        message.error(result.message || "获取数据失败！");
+      }
     });
   }
 }
