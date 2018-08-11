@@ -2,6 +2,7 @@ import * as React from "react";
 import { ComponentProps } from "../../../app/componentProps";
 import { Dispatch } from "../../../../node_modules/redux";
 import { ModelBase } from "../../../app/modelBase";
+import { connect } from "react-redux";
 
 let styles = require("./listBase.less");
 
@@ -76,10 +77,14 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
 }
 
 
-export function mapStateToProps(listModel: ModelBase) {
+function mapStateToProps(listModel: ModelBase) {
   return (state: any, ownProps: any) => {
     return {
       modelData: listModel.getState()
     };
   };
+}
+
+export function connectList(component: any, listModel: ModelBase) {
+  return connect(mapStateToProps(listModel))(component);
 }

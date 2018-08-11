@@ -1,7 +1,6 @@
 import * as React from "react";
-import { ListBaseComponent, mapStateToProps } from "../../base/list/listBase";
+import { ListBaseComponent, connectList } from "../../base/list/listBase";
 import { ComponentProps } from "../../../app/componentProps";
-import { connect } from "react-redux";
 import { Spin, Table, Divider } from "antd";
 import { model as listModel } from "./listModel";
 import { model as editModel } from "../edit/editModel";
@@ -73,4 +72,4 @@ class User2List extends ListBaseComponent {
   }
 }
 
-export default connect(mapStateToProps(listModel))(User2List);
+export default connectList(User2List, listModel);
