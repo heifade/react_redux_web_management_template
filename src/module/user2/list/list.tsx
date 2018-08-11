@@ -5,11 +5,10 @@ import { Spin, Table, Divider } from "antd";
 import { model as listModel } from "./listModel";
 import { model as editModel } from "../edit/editModel";
 import { listService } from "./listService";
-import { wait } from "../../../app/utils";
-import UserEdit from "../edit/edit";
+import EditDialog from "../edit/edit";
 let styles = require("./list.less");
 
-class User2List extends ListBaseComponent {
+class ListComponent extends ListBaseComponent {
   constructor(props: ComponentProps, context: any) {
     super(props, context);
 
@@ -30,7 +29,8 @@ class User2List extends ListBaseComponent {
   }
 
   render() {
-    const dataSource = this.props.modelData.list.map((data: any, index: number) => ({ ...data, key: index }));
+    const { list, isShowLoading, isShowEditDialog } = this.props.modelData;
+    const dataSource = list.map((data: any, index: number) => ({ ...data, key: index }));
     const columns = [
       {
         title: "编号",
@@ -41,6 +41,11 @@ class User2List extends ListBaseComponent {
         title: "姓名",
         dataIndex: "name",
         key: "name"
+      },
+      {
+        title: "年龄",
+        dataIndex: "age",
+        key: "age"
       },
       {
         title: "操作",
@@ -62,14 +67,13 @@ class User2List extends ListBaseComponent {
 
     return (
       <div className={styles.userList}>
-        <Spin spinning={this.props.modelData.isShowLoading}>
+        <Spin spinning={isShowLoading}>
           <Table dataSource={dataSource} columns={columns} />
         </Spin>
-
-        {this.props.modelData.isShowEditDialog && <UserEdit />}
+        {isShowEditDialog && <EditDialog />}
       </div>
     );
   }
 }
 
-export default connectList(User2List, listModel);
+export default connectList(ListComponent, listModel);

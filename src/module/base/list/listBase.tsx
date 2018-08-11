@@ -3,6 +3,8 @@ import { ComponentProps } from "../../../app/componentProps";
 import { Dispatch } from "../../../../node_modules/redux";
 import { ModelBase } from "../../../app/modelBase";
 import { connect } from "react-redux";
+import { Modal, message } from "antd";
+import { wait } from "../../../app/utils";
 
 let styles = require("./listBase.less");
 
@@ -30,6 +32,10 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
       });
 
       dispatch({
+        type: this.editModel.getActionType("hideSaveBtnLoading")
+      });
+
+      dispatch({
         type: this.editModel.getActionType("showEditDialog"),
         data: await this.onGetDetail(data)
       });
@@ -41,19 +47,32 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
   };
   onDeleteHandle = (data: any) => {
     this.props.dispatch(async (dispatch: Dispatch) => {
-      dispatch({
-        type: this.listModel.getActionType("showLoadding")
-      });
+      Modal.confirm({
+        title: "是否确认删除？",
+        okText: "确定",
+        cancelText: "取消",
+        onOk: async () => {
+          let result = await this.onDelete(data);
+          if (result.success) {
+            dispatch({
+              type: this.listModel.getActionType("showLoadding")
+            });
+            dispatch({
+              type: this.listModel.getActionType("listFetched"),
+              list: await this.onFetch()
+            });
 
-      await this.onDelete(data);
-
-      dispatch({
-        type: this.listModel.getActionType("listFetched"),
-        list: await this.onFetch()
-      });
-
-      dispatch({
-        type: this.listModel.getActionType("hideLoading")
+            dispatch({
+              type: this.listModel.getActionType("hideLoading")
+            });
+          } else {
+            dispatch({
+              type: this.listModel.getActionType("hideLoading")
+            });
+            message.error(result.message || "操作失败！");
+            throw new Error(); // 抛出错，是为了不关掉删除确认框
+          }
+        }
       });
     });
   };
