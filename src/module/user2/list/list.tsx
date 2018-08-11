@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ListBaseComponent } from "../../base/list/listBase";
+import { ListBaseComponent, mapStateToProps } from "../../base/list/listBase";
 import { ComponentProps } from "../../../app/componentProps";
 import { connect } from "react-redux";
 import { Spin, Table, Divider } from "antd";
@@ -31,7 +31,7 @@ class User2List extends ListBaseComponent {
   }
 
   render() {
-    const dataSource = this.props.modelData.list.map((data, index) => ({ ...data, key: index }));
+    const dataSource = this.props.modelData.list.map((data: any, index: number) => ({ ...data, key: index }));
     const columns = [
       {
         title: "编号",
@@ -73,10 +73,4 @@ class User2List extends ListBaseComponent {
   }
 }
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    modelData: listModel.getState()
-  };
-};
-
-export default connect(mapStateToProps)(User2List);
+export default connect(mapStateToProps(listModel))(User2List);

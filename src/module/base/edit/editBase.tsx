@@ -1,8 +1,10 @@
 import * as React from "react";
 import { Dispatch } from "redux";
 import { ComponentProps } from "../../../app/componentProps";
-import { wait } from "../../../app/utils";
 import { ModelBase } from "../../../app/modelBase";
+import { Form } from "antd";
+import { Hash } from "../../../app/hash";
+import { connect } from "react-redux";
 
 let styles = require("./editBase.less");
 
@@ -66,4 +68,41 @@ export abstract class EditBaseComponent extends React.Component<ComponentProps, 
       });
     });
   };
+}
+
+function createForm(component: React.ComponentClass, editModel: ModelBase) {
+  return Form.create({
+    mapPropsToFields(props: any) {
+      let { data } = props.modelData;
+      if (data) {
+        let hash = new Hash();
+
+        Reflect.ownKeys(data).map((key: string, index) => {
+          hash[key] = Form.createFormField(data[key]);
+        });
+
+        return hash;
+      }
+    },
+    onFieldsChange(props, fields) {
+      props.dispatch({
+        type: editModel.getActionType("fieldChanged"),
+        data: fields
+      });
+    }
+  })(component);
+}
+
+function mapStateToProps(editModel: ModelBase) {
+  return (state: any, ownProps: any) => {
+    return {
+      modelData: editModel.getState()
+    };
+  };
+}
+
+export function connectForm(component: any, editModel: ModelBase) {
+  let editComponentForm = createForm(component, editModel);
+
+  return connect(mapStateToProps(editModel))(editComponentForm);
 }

@@ -1,14 +1,13 @@
 import * as React from "react";
 import { ComponentProps } from "../../../app/componentProps";
-import { EditBaseComponent } from "../../base/edit/editBase";
+import { EditBaseComponent, connectForm } from "../../base/edit/editBase";
 import { Modal, Button, Form, Input, Icon } from "antd";
-import { connect } from "react-redux";
 import { model as listModel } from "../list/listModel";
 import { model as editModel } from "./editModel";
 import { listService } from "../list/listService";
 let styles = require("./edit.less");
 
-export class UserEditComponent extends EditBaseComponent {
+class UserEditComponent extends EditBaseComponent {
   constructor(props: ComponentProps, context: any) {
     super(props, context);
     this.listModel = listModel;
@@ -61,27 +60,4 @@ export class UserEditComponent extends EditBaseComponent {
   }
 }
 
-let UserEditComponentForm = Form.create({
-  mapPropsToFields(props) {
-    if (props.modelData.data) {
-      return {
-        id: Form.createFormField(props.modelData.data.id),
-        name: Form.createFormField(props.modelData.data.name)
-      };
-    }
-  },
-  onFieldsChange(props, fields) {
-    props.dispatch({
-      type: editModel.getActionType("fieldChanged"),
-      data: fields
-    });
-  }
-})(UserEditComponent);
-
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    modelData: editModel.getState()
-  };
-};
-
-export default connect(mapStateToProps)(UserEditComponentForm);
+export default connectForm(UserEditComponent, editModel);
