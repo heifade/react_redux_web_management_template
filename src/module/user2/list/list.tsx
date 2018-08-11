@@ -54,8 +54,12 @@ class ListComponent extends ListBaseComponent {
     });
   };
 
+  onSearchHandle = () => {
+    this.onSelectHandle();
+  }
+
   render() {
-    const { list, isShowLoading, isShowEditDialog } = this.props.modelData;
+    const { list, isShowLoading, isShowEditDialog, condition } = this.props.modelData;
     const dataSource = list.map((data: any, index: number) => ({ ...data, key: index, checkState: data.checked ? "已审核" : "未审核" }));
     const columns = [
       {
@@ -117,16 +121,20 @@ class ListComponent extends ListBaseComponent {
         <div className={styles.condition}>
           <Row gutter={16}>
             <Col {...conditionSpan}>
-              <Input addonBefore="编号" />
+              <Input addonBefore="编号" placeholder="请输入编号" onChange={(e) => this.onConditionChanged("id", e.target.value)} value={condition.id} />
             </Col>
             <Col {...conditionSpan}>
-              <Input addonBefore="姓名" />
+              <Input addonBefore="姓名" placeholder="请输入姓名" onChange={(e) => this.onConditionChanged("name", e.target.value)} value={condition.name}/>
             </Col>
             <Col {...conditionSpan}>
-              <Input addonBefore="性别" />
+              <Select defaultValue="" style={{ width: 120 }} onChange={(e) => this.onConditionChanged("sex", e)} value={condition.sex}>
+                <Select.Option value="">全部</Select.Option>
+                <Select.Option value="男">男</Select.Option>
+                <Select.Option value="女">女</Select.Option>
+              </Select>
             </Col>
             <Col xl={2}>
-              <Button type="primary" icon="search">
+              <Button type="primary" icon="search" onClick={this.onSearchHandle}>
                 查询
               </Button>
             </Col>

@@ -5,12 +5,23 @@ export function getModel({ namespace, statePath }) {
   return new ModelBase({
     namespace: namespace,
     initState: {
+      condition: {},
       list: [],
       isShowLoading: false,
       isShowEditDialog: false
     },
     statePath: statePath,
     reducers: {
+      conditionChanged(state: any, action: AnyAction) {
+        let { condition } = state;
+        return {
+          ...state,
+          condition: {
+            ...condition,
+            [action.key]: action.value
+          }
+        };
+      },
       showLoadding(state: any, action: AnyAction) {
         return {
           ...state,

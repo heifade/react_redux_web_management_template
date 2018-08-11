@@ -21,6 +21,16 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
 
   abstract async onDelete(data: any): Promise<any>;
 
+  onConditionChanged = (key: string, value: string) => {
+    this.props.dispatch(async (dispatch: Dispatch) => {
+      dispatch({
+        type: this.listModel.getActionType("conditionChanged"), //
+        key,
+        value
+      });
+    });
+  }
+
   onShowEditHandle = (data: any) => {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
@@ -88,7 +98,7 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
     });
   };
 
-  componentDidMount() {
+  onSelectHandle = () => {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
         type: this.listModel.getActionType("showLoadding") // 显示列表 loading
@@ -111,6 +121,10 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
         message.error(result.message || "获取数据失败！");
       }
     });
+  }
+
+  componentDidMount() {
+    this.onSelectHandle();
   }
 }
 
