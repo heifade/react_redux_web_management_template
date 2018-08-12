@@ -2,8 +2,8 @@ import { getModel } from "../../base/list/listBaseModel";
 import { AnyAction } from "redux";
 
 export let model = getModel({
-  namespace: "user2List",
-  statePath: "user2.userList",
+  namespace: "userList",
+  statePath: "user.userList",
   initState: {
     condition: {
       sex: "",

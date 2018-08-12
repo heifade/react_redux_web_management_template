@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { modelToReducer } from "../../app/modelToReducer";
-import { model as userListModel } from "./userList/userListModel";
-import { model as userEditModel } from "./userEdit/userEditModel";
+import { model as userListModel } from "./list/listModel";
+import { model as userEditModel } from "./edit/editModel";
 
 export let userReducer = combineReducers({
   userList: modelToReducer(userListModel),

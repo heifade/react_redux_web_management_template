@@ -1,7 +1,6 @@
 import { createStore, Action, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk"; // 允许我们 dispatch() 函数
-import { userReducer } from "../module/userManage/userReducer";
-import { user2Reducer } from "../module/user2/user2Reducer";
+import { userReducer } from "../module/user/userReducer";
 import { createLogger } from "redux-logger";
 
 // export default function reducer(state = new StoreModule(), action: Action) {
@@ -15,7 +14,6 @@ const loggerMiddleware = createLogger();
 
 let reducer = combineReducers({
   user: userReducer,
-  user2: user2Reducer,
 });
 
 export let store = createStore(

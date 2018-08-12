@@ -10,6 +10,7 @@ interface SelectProps {
 
   value: string;
   placeholder: string;
+  onChange: (value: string) => void;
 }
 
 export class Select extends React.Component<SelectProps, any> {
