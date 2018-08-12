@@ -1,16 +1,17 @@
 import * as React from "react";
 import { ComponentProps } from "../../../app/componentProps";
 import { EditDialogBaseComponent, connectForm } from "../../base/edit/editDialogBase";
-import { Form, Input, Icon, Select } from "antd";
+import { Form, Input, Icon, Row, Col, Cascader, DatePicker, TimePicker } from "antd";
+import { Select } from "../../components/select";
 import { model as listModel } from "../list/listModel";
 import { model as editModel } from "./editModel";
 import { listService } from "../list/listService";
 import { FormComponentProps } from "antd/lib/form";
+import { FormItemComponent } from "../../base//edit/formItem";
+import { FormItemIcon } from "../../base/edit/formItemIcon";
 let styles = require("./edit.less");
 
-class EditComponentProps extends FormComponentProps {
-
-}
+interface EditComponentProps extends FormComponentProps {}
 
 class EditComponent extends React.Component<EditComponentProps, any> {
   constructor(props: EditComponentProps, context: any) {
@@ -33,26 +34,30 @@ class EditComponent extends React.Component<EditComponentProps, any> {
       <EditDialogBaseComponent {...this.props} title={"用户信息编辑"} listModel={listModel} editModel={editModel} onSave={this.onSave} onFetch={this.onFetch}>
         <div className={styles.userEdit}>
           <Form layout="inline">
-            <Form.Item>
-              {getFieldDecorator("id", {
-                rules: [{ required: true, message: "请输入编号" }]
-              })(<Input prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />} placeholder="编号" />)}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator("name", {
-                rules: [{ required: true, message: "请输入姓名" }]
-              })(<Input prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />} placeholder="姓名" />)}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator("sex", {
-                rules: [{ required: true, message: "请输入性别" }]
-              })(
-                <Select style={{ width: 120 }}>
-                  <Select.Option value="男">男</Select.Option>
-                  <Select.Option value="女">女</Select.Option>
-                </Select>
-              )}
-            </Form.Item>
+            <Row gutter={16}>
+              <FormItemComponent label="编号">
+                {getFieldDecorator("id", {
+                  rules: [{ required: true, message: "请输入编号" }]
+                })(<Input prefix={<FormItemIcon type="bars" />} placeholder="编号" />)}
+              </FormItemComponent>
+
+              <FormItemComponent label="性别">
+                {getFieldDecorator("sex", {
+                  rules: [{ required: true, message: "请输入性别" }]
+                })(<Select options={[{ value: "男", text: "男" }, { value: "女", text: "女" }]} placeholder="性别" />)}
+              </FormItemComponent>
+
+              <FormItemComponent label="姓名">
+                {getFieldDecorator("name", {
+                  rules: [{ required: true, message: "请输入姓名" }]
+                })(<Input prefix={<FormItemIcon type="user" />} placeholder="姓名" />)}
+              </FormItemComponent>
+              <FormItemComponent label="地址">
+                {getFieldDecorator("address", {
+                  rules: [{ required: true, message: "请输入地址" }]
+                })(<Input prefix={<FormItemIcon type="environment-o" />} placeholder="地址" />)}
+              </FormItemComponent>
+            </Row>
           </Form>
         </div>
       </EditDialogBaseComponent>

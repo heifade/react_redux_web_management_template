@@ -140,7 +140,6 @@ function createForm(component: any, editModel: ModelBase) {
         data: fields
       });
     }
-    // onValuesChange(props: any, changedValues: any, allValues: any) {}
   })(component);
 }
 

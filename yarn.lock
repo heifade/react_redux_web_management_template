@@ -14,6 +14,12 @@
   version "4.14.116"
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.116.tgz#5ccf215653e3e8c786a58390751033a9adca0eb9"
 
+"@types/moment@^2.13.0":
+  version "2.13.0"
+  resolved "https://registry.npmjs.org/@types/moment/-/moment-2.13.0.tgz#604ebd189bc3bc34a1548689404e61a2a4aac896"
+  dependencies:
+    moment "*"
+
 "@types/node@*", "@types/node@^10.5.7":
   version "10.5.7"
   resolved "https://registry.npmjs.org/@types/node/-/node-10.5.7.tgz#960d9feb3ade2233bcc9843c918d740b4f78a7cf"
@@ -84,9 +90,9 @@ add-dom-event-listener@1.x:
   dependencies:
     object-assign "4.x"
 
-antd@^3.8.0:
-  version "3.8.0"
-  resolved "https://registry.npmjs.org/antd/-/antd-3.8.0.tgz#a4226a373fc301b9475b7d23e85433d203481858"
+antd@^3.8.1:
+  version "3.8.1"
+  resolved "https://registry.npmjs.org/antd/-/antd-3.8.1.tgz#1780acd5e9bc6c80dc23b042161418eb88f4d80e"
   dependencies:
     array-tree-filter "^2.0.0"
     babel-runtime "6.x"
@@ -395,7 +401,7 @@ mini-store@^1.0.2, mini-store@^1.1.0:
     prop-types "^15.6.0"
     shallowequal "^1.0.2"
 
-moment@2.x, moment@^2.19.3:
+moment@*, moment@2.x, moment@^2.19.3, moment@^2.22.2:
   version "2.22.2"
   resolved "https://registry.npmjs.org/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 

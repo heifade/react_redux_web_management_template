@@ -6,7 +6,7 @@ export function getModel({ namespace = "", statePath = "" }) {
   return new ModelBase({
     namespace: namespace,
     initState: {
-      user: null,
+      data: null,
       isShowSaveBtnLoading: false,
       isShowEditDialog: true
     },

@@ -21,15 +21,17 @@
     "@types/redux": "^3.6.0",
     "@types/redux-logger": "^3.0.6",
     "@types/redux-thunk": "^2.1.0",
-    "antd": "^3.8.0",
+    "antd": "^3.8.1",
     "redux-logger": "^3.0.6"
   },
   "dependencies": {
     "@types/classnames": "^2.2.6",
     "@types/lodash": "^4.14.116",
+    "@types/moment": "^2.13.0",
     "classnames": "^2.2.6",
     "happywork-config": "^1.0.0-beta3",
     "lodash": "^4.17.10",
+    "moment": "^2.22.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
