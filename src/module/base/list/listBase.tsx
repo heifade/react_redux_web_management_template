@@ -4,27 +4,33 @@ import { Dispatch } from "../../../../node_modules/redux";
 import { ModelBase } from "../../../app/modelBase";
 import { connect } from "react-redux";
 import { Modal, message } from "antd";
-import { wait } from "../../../app/utils";
-
+import { Spin, Table, Pagination } from "antd";
 let styles = require("./listBase.less");
 
-export abstract class ListBaseComponent extends React.Component<ComponentProps, any> {
-  public listModel: ModelBase;
-  public editModel: ModelBase;
-  constructor(props: ComponentProps, context: any) {
+interface ListBaseComponentProps extends ComponentProps {
+  listModel: ModelBase;
+  editModel: ModelBase;
+  onGetDetail: (data: any) => Promise<any>;
+  onDelete: (data: any) => Promise<any>;
+  onFetch: () => Promise<any>;
+  onPaginationChanged: (page: number) => void;
+  condition: any;
+  dataSource: any;
+  dataCount: number;
+  isShowLoading: boolean;
+  columns: any;
+  editDialog: any;
+}
+
+export class ListBaseComponent extends React.Component<ListBaseComponentProps, any> {
+  constructor(props: ListBaseComponentProps, context: any) {
     super(props, context);
   }
-
-  abstract async onFetch(): Promise<any>;
-
-  abstract async onGetDetail(data: any): Promise<any>;
-
-  abstract async onDelete(data: any): Promise<any>;
 
   onConditionChanged = (key: string, value: string) => {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
-        type: this.listModel.getActionType("conditionChanged"), //
+        type: this.props.listModel.getActionType("conditionChanged"), //
         key,
         value
       });
@@ -34,30 +40,30 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
   onShowEditHandle = (data: any) => {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
-        type: this.listModel.getActionType("showLoadding") // 显示列表 loading
+        type: this.props.listModel.getActionType("showLoadding") // 显示列表 loading
       });
 
-      let result = await this.onGetDetail(data);
+      let result = await this.props.onGetDetail(data);
       if (result.success) {
         dispatch({
-          type: this.listModel.getActionType("showEditDialog") // 初始化编辑弹框
+          type: this.props.listModel.getActionType("showEditDialog") // 初始化编辑弹框
         });
 
         dispatch({
-          type: this.editModel.getActionType("hideSaveBtnLoading") // 隐藏保存按钮 loading
+          type: this.props.editModel.getActionType("hideSaveBtnLoading") // 隐藏保存按钮 loading
         });
 
         dispatch({
-          type: this.editModel.getActionType("showEditDialog"), // 显示编辑弹框
+          type: this.props.editModel.getActionType("showEditDialog"), // 显示编辑弹框
           data: result.data
         });
 
         dispatch({
-          type: this.listModel.getActionType("hideLoading") // 隐藏列表 loading
+          type: this.props.listModel.getActionType("hideLoading") // 隐藏列表 loading
         });
       } else {
         dispatch({
-          type: this.listModel.getActionType("hideLoading") // 隐藏列表 loading
+          type: this.props.listModel.getActionType("hideLoading") // 隐藏列表 loading
         });
         message.error(result.message || "获取数据失败！");
       }
@@ -70,16 +76,16 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
         okText: "确定",
         cancelText: "取消",
         onOk: async () => {
-          let result = await this.onDelete(data);
+          let result = await this.props.onDelete(data);
           if (result.success) {
             dispatch({
-              type: this.listModel.getActionType("showLoadding") // 显示列表 loading
+              type: this.props.listModel.getActionType("showLoadding") // 显示列表 loading
             });
 
-            let result = await this.onFetch();
+            let result = await this.props.onFetch();
             if (result.success) {
               dispatch({
-                type: this.listModel.getActionType("listFetched"), // 列表填充数据
+                type: this.props.listModel.getActionType("listFetched"), // 列表填充数据
                 list: result.data
               });
             } else {
@@ -87,7 +93,7 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
             }
 
             dispatch({
-              type: this.listModel.getActionType("hideLoading") // 隐藏列表 loading
+              type: this.props.listModel.getActionType("hideLoading") // 隐藏列表 loading
             });
           } else {
             message.error(result.message || "操作失败！");
@@ -101,23 +107,23 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
   onSelectHandle = () => {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
-        type: this.listModel.getActionType("showLoadding") // 显示列表 loading
+        type: this.props.listModel.getActionType("showLoadding") // 显示列表 loading
       });
 
-      let result = await this.onFetch();
+      let result = await this.props.onFetch();
       if (result.success) {
         dispatch({
-          type: this.listModel.getActionType("listFetched"), // 列表填充数据
+          type: this.props.listModel.getActionType("listFetched"), // 列表填充数据
           list: result.data,
           count: result.count
         });
 
         dispatch({
-          type: this.listModel.getActionType("hideLoading") // 隐藏列表 loading
+          type: this.props.listModel.getActionType("hideLoading") // 隐藏列表 loading
         });
       } else {
         dispatch({
-          type: this.listModel.getActionType("hideLoading") // 隐藏列表 loading
+          type: this.props.listModel.getActionType("hideLoading") // 隐藏列表 loading
         });
         message.error(result.message || "获取数据失败！");
       }
@@ -126,6 +132,33 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
 
   componentDidMount() {
     this.onSelectHandle();
+  }
+
+  onPaginationChanged = (page: number) => {
+    let { onPaginationChanged } = this.props;
+    if (onPaginationChanged) {
+      onPaginationChanged(page);
+    }
+  };
+
+  render() {
+    let { condition, isShowLoading, dataSource, columns, editDialog, dataCount } = this.props;
+    return (
+      <div className={styles.listPage}>
+        {condition && <div className={styles.condition}>{condition}</div>}
+
+        <div className={styles.lineBelowCondition} />
+        <div className={styles.tableList}>
+          <Spin spinning={isShowLoading}>
+            <Table dataSource={dataSource} columns={columns} size="middle" bordered={true} scroll={{ x: 1600, y: 500 }} pagination={false} />
+            <div className={styles.pagination}>
+              <Pagination defaultCurrent={1} showTotal={total => `总共 ${total} 条`} total={dataCount} hideOnSinglePage={true} defaultPageSize={10} onChange={this.onPaginationChanged} />
+            </div>
+          </Spin>
+        </div>
+        {editDialog}
+      </div>
+    );
   }
 }
 

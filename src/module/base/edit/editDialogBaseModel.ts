@@ -2,7 +2,7 @@ import { AnyAction } from "redux";
 import { ModelBase } from "../../../app/modelBase";
 import { Hash } from "../../../app/hash";
 
-export function getModel({ namespace, statePath }) {
+export function getModel({ namespace = "", statePath = "" }) {
   return new ModelBase({
     namespace: namespace,
     initState: {

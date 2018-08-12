@@ -26,7 +26,8 @@ export let listService = {
     return {
       success: true,
       data: list,
-      count: list1.length
+      count: list1.length,
+      message: ""
     };
   },
 

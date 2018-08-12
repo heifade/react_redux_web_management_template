@@ -5,9 +5,7 @@ import { ModelBase } from "../../../app/modelBase";
 import { Form, Modal, Button, message } from "antd";
 import { Hash } from "../../../app/hash";
 import { connect } from "react-redux";
-import { wait } from "../../../app/utils";
-
-let styles = require("./editBase.less");
+let styles = require("./editDialogBase.less");
 
 export let ModalWdith = {
   small: 520,
@@ -18,21 +16,20 @@ export let ModalWdith = {
   }
 };
 
-export class ModeProps {
+interface EditDialogBaseComponentProps extends ComponentProps {
+  listModel: ModelBase;
+  editModel: ModelBase;
+  onSave: (data: any) => Promise<any>;
+  onFetch: () => Promise<any>;
   title?: string;
   closable?: boolean;
   width?: number;
 }
 
-export abstract class EditBaseComponent extends React.Component<ComponentProps, any> {
-  public listModel: ModelBase;
-  public editModel: ModelBase;
-  constructor(props: ComponentProps, context: any) {
+export class EditDialogBaseComponent extends React.Component<EditDialogBaseComponentProps, any> {
+  constructor(props: EditDialogBaseComponentProps, context: any) {
     super(props, context);
   }
-
-  abstract async onSave(data: any): Promise<any>;
-  abstract async onFetch(): Promise<any>;
 
   onSaveHandle = (e: any) => {
     e.preventDefault();
@@ -40,41 +37,39 @@ export abstract class EditBaseComponent extends React.Component<ComponentProps, 
       if (!err) {
         this.props.dispatch(async (dispatch: Dispatch) => {
           dispatch({
-            type: this.editModel.getActionType("showSaveBtnLoadding")
+            type: this.props.editModel.getActionType("showSaveBtnLoadding")
           });
 
-          let result = await this.onSave(values);
+          let result = await this.props.onSave(values);
           if (result.success) {
             dispatch({
-              type: this.editModel.getActionType("hideSaveBtnLoading")
+              type: this.props.editModel.getActionType("hideSaveBtnLoading")
             });
 
             dispatch({
-              type: this.editModel.getActionType("editDialogClosing")
+              type: this.props.editModel.getActionType("editDialogClosing")
             });
 
             dispatch({
-              type: this.listModel.getActionType("showLoadding")
+              type: this.props.listModel.getActionType("showLoadding")
             });
 
-            let resultFetch = await this.onFetch();
+            let resultFetch = await this.props.onFetch();
             if (resultFetch.success) {
               dispatch({
-                type: this.listModel.getActionType("listFetched"),
+                type: this.props.listModel.getActionType("listFetched"),
                 list: resultFetch.data
               });
             } else {
               message.error(result.message || "获取数据失败！");
             }
 
-            
-
             dispatch({
-              type: this.listModel.getActionType("hideLoading")
+              type: this.props.listModel.getActionType("hideLoading")
             });
           } else {
             dispatch({
-              type: this.editModel.getActionType("hideSaveBtnLoading")
+              type: this.props.editModel.getActionType("hideSaveBtnLoading")
             });
             message.error(result.message || "操作失败！");
           }
@@ -85,7 +80,7 @@ export abstract class EditBaseComponent extends React.Component<ComponentProps, 
   onCloseHandle = () => {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
-        type: this.editModel.getActionType("editDialogClosing")
+        type: this.props.editModel.getActionType("editDialogClosing")
       });
     });
   };
@@ -93,22 +88,23 @@ export abstract class EditBaseComponent extends React.Component<ComponentProps, 
   onAfterCloseHandle = () => {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
-        type: this.listModel.getActionType("disposeEditDialog")
+        type: this.props.listModel.getActionType("disposeEditDialog")
       });
     });
   };
 
-  getJsx(modeProps: ModeProps, children: any) {
+  render() {
+    let { title, closable, width, children } = this.props;
     let { isShowSaveBtnLoading, isShowEditDialog } = this.props.modelData;
     return (
       <Modal
         visible={isShowEditDialog} // 对话框是否可见
-        title={modeProps.title || "编辑"} // 标题
+        title={title || "编辑"} // 标题
         onCancel={this.onCloseHandle} // 点击遮罩层或右上角叉或取消按钮的回调
         afterClose={this.onAfterCloseHandle} // Modal 完全关闭后的回调
-        closable={modeProps.closable || true} // 是否显示右上角的关闭按钮
+        closable={closable || true} // 是否显示右上角的关闭按钮
         maskClosable={false} // 点击蒙层是否允许关闭
-        width={modeProps.width || 520} // 宽度
+        width={width || 520} // 宽度
         footer={[
           <Button key="close" onClick={this.onCloseHandle}>
             关闭
@@ -124,7 +120,7 @@ export abstract class EditBaseComponent extends React.Component<ComponentProps, 
   }
 }
 
-function createForm(component: React.ComponentClass, editModel: ModelBase) {
+function createForm(component: any, editModel: ModelBase) {
   return Form.create({
     mapPropsToFields(props: any) {
       let { data } = props.modelData;
@@ -138,12 +134,13 @@ function createForm(component: React.ComponentClass, editModel: ModelBase) {
         return hash;
       }
     },
-    onFieldsChange(props, fields) {
+    onFieldsChange(props: any, fields: any) {
       props.dispatch({
         type: editModel.getActionType("fieldChanged"),
         data: fields
       });
     }
+    // onValuesChange(props: any, changedValues: any, allValues: any) {}
   })(component);
 }
 

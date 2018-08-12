@@ -8,40 +8,36 @@ import { model as editModel } from "../edit/editModel";
 import { listService } from "./listService";
 import EditDialog from "../edit/edit";
 let styles = require("./list.less");
-import { ListPageComponent } from "../../components/listPage/listPageComponent";
 
-class ListComponent extends ListBaseComponent {
+class ListComponent extends React.Component<ComponentProps, any> {
+  private listBase: ListBaseComponent;
   constructor(props: ComponentProps, context: any) {
     super(props, context);
-
-    this.listModel = listModel;
-    this.editModel = editModel;
   }
 
-  async onFetch() {
-    console.log(11, this.props.modelData.condition);
+  onFetch = async () => {
     return await listService.getUserList(this.props.modelData.condition);
-  }
+  };
 
-  async onGetDetail(data: any) {
+  onGetDetail = async (data: any) => {
     return await listService.getUser(data.id);
-  }
+  };
 
-  async onDelete(data: any) {
+  onDelete = async (data: any) => {
     return await listService.deleteUser(data.id);
-  }
+  };
 
   onCheckHandle = (data: any) => {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
-        type: this.listModel.getActionType("showLoadding") // 显示列表 loading
+        type: listModel.getActionType("showLoadding") // 显示列表 loading
       });
       let result = await listService.checkUser(data);
       if (result.success) {
         let result = await this.onFetch();
         if (result.success) {
           dispatch({
-            type: this.listModel.getActionType("listFetched"), // 列表填充数据
+            type: listModel.getActionType("listFetched"), // 列表填充数据
             list: result.data
           });
         } else {
@@ -51,25 +47,25 @@ class ListComponent extends ListBaseComponent {
         message.error(result.message || "操作失败！");
       }
       dispatch({
-        type: this.listModel.getActionType("hideLoading") // 隐藏列表 loading
+        type: listModel.getActionType("hideLoading") // 隐藏列表 loading
       });
     });
   };
 
   onSearchHandle = () => {
-    this.onSelectHandle();
+    this.listBase.onSelectHandle();
   };
 
   onPaginationChanged = (page: number) => {
     this.props.dispatch(async (dispatch: Dispatch) => {
       dispatch({
-        type: this.listModel.getActionType("conditionChanged"),
+        type: listModel.getActionType("conditionChanged"),
         key: "pageIndex",
         value: page
       });
 
       setTimeout(() => {
-        this.onSelectHandle();
+        this.listBase.onSelectHandle();
       }, 0);
     });
   };
@@ -129,11 +125,11 @@ class ListComponent extends ListBaseComponent {
         fixed: "right",
         render: (text: any, record: any) => (
           <span>
-            <a href="javascript:;" onClick={() => this.onShowEditHandle(record)}>
+            <a href="javascript:;" onClick={() => this.listBase.onShowEditHandle(record)}>
               编辑
             </a>
             <Divider type="vertical" />
-            <a href="javascript:;" onClick={() => this.onDeleteHandle(record)}>
+            <a href="javascript:;" onClick={() => this.listBase.onDeleteHandle(record)}>
               删除
             </a>
             {!record.checked && (
@@ -158,17 +154,19 @@ class ListComponent extends ListBaseComponent {
     };
 
     return (
-      <ListPageComponent
+      <ListBaseComponent
+        {...this.props}
+        ref={obj => (this.listBase = obj)}
         condition={
           <Row gutter={16}>
             <Col {...conditionSpan}>
-              <Input addonBefore="编号" placeholder="请输入编号" onChange={e => this.onConditionChanged("id", e.target.value)} value={condition.id} />
+              <Input addonBefore="编号" placeholder="请输入编号" onChange={e => this.listBase.onConditionChanged("id", e.target.value)} value={condition.id} />
             </Col>
             <Col {...conditionSpan}>
-              <Input addonBefore="姓名" placeholder="请输入姓名" onChange={e => this.onConditionChanged("name", e.target.value)} value={condition.name} />
+              <Input addonBefore="姓名" placeholder="请输入姓名" onChange={e => this.listBase.onConditionChanged("name", e.target.value)} value={condition.name} />
             </Col>
             <Col {...conditionSpan}>
-              <Select style={{ width: 120 }} onChange={e => this.onConditionChanged("sex", e)} value={condition.sex}>
+              <Select style={{ width: 120 }} onChange={e => this.listBase.onConditionChanged("sex", e.toString())} value={condition.sex}>
                 <Select.Option value="">全部</Select.Option>
                 <Select.Option value="男">男</Select.Option>
                 <Select.Option value="女">女</Select.Option>
@@ -187,6 +185,11 @@ class ListComponent extends ListBaseComponent {
         isShowLoading={isShowLoading}
         columns={columns}
         editDialog={isShowEditDialog && <EditDialog />}
+        onFetch={this.onFetch}
+        onGetDetail={this.onGetDetail}
+        onDelete={this.onDelete}
+        listModel={listModel}
+        editModel={editModel}
       />
     );
   }

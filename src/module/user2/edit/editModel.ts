@@ -1,6 +1,6 @@
 
 
-import { getModel } from "../../base/edit/editBaseModel";
+import { getModel } from "../../base/edit/editDialogBaseModel";
 
 export let model = getModel({
   namespace: 'user2Edit',

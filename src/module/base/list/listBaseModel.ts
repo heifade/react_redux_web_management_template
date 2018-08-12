@@ -15,7 +15,6 @@ export function getModel({ namespace = "", statePath = "", initState = new Hash(
     reducers: {
       conditionChanged(state: any, action: AnyAction) {
         let { condition } = state;
-        console.log(999, action.key, action.value);
         return {
           ...state,
           condition: {
