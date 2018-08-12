@@ -29,7 +29,7 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
         value
       });
     });
-  }
+  };
 
   onShowEditHandle = (data: any) => {
     this.props.dispatch(async (dispatch: Dispatch) => {
@@ -108,7 +108,8 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
       if (result.success) {
         dispatch({
           type: this.listModel.getActionType("listFetched"), // 列表填充数据
-          list: result.data
+          list: result.data,
+          count: result.count
         });
 
         dispatch({
@@ -121,7 +122,7 @@ export abstract class ListBaseComponent extends React.Component<ComponentProps, 
         message.error(result.message || "获取数据失败！");
       }
     });
-  }
+  };
 
   componentDidMount() {
     this.onSelectHandle();

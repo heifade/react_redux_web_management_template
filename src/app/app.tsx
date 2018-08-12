@@ -9,6 +9,13 @@ import { BreadcrumbComponent } from "./breadcrumb";
 import createHistory from "history/createHashHistory";
 import { MenuModule } from "./modules";
 import { menuList, routeList } from "./route";
+import { LocaleProvider } from "antd";
+import zhCN from "antd/lib/locale-provider/zh_CN";
+import * as moment from "moment";
+import 'moment/locale/zh-cn';
+
+moment.locale('zh-cn');
+
 const history = createHistory();
 const styles = require("./app.less");
 
@@ -22,23 +29,29 @@ let MainComponent = (props: MenuProps) => {
   let path = getLocation();
 
   return (
-    <Layout className={styles.app}>
-      <Header className={classname("header", styles.header)}>
-        <div className="logo" />
-      </Header>
-      <Layout className={styles.body}>
-        <Sider className={styles["menu-side"]}>
-          <MenuComponent {...props} path={path} />
-        </Sider>
-        <Layout className={styles["content-side"]}>
-          <BreadcrumbComponent {...props} path={path} />
+    <LocaleProvider locale={zhCN}>
+      <Layout className={styles.app}>
+        <Header className={classname("header", styles.header)}>
+          <div className="logo" />
+        </Header>
+        <Layout className={styles.body}>
+          <Sider className={styles["menu-side"]}>
+            <MenuComponent {...props} path={path} />
+          </Sider>
+          <Layout className={styles["content-side"]}>
+            <BreadcrumbComponent {...props} path={path} />
 
-          <Content>
-            <Switch>{routeList.map((m, i) => <Route key={i} path={m.path} component={m.component} />)}</Switch>
-          </Content>
+            <Content>
+              <Switch>
+                {routeList.map((m, i) => (
+                  <Route key={i} path={m.path} component={m.component} />
+                ))}
+              </Switch>
+            </Content>
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
+    </LocaleProvider>
   );
 };
 

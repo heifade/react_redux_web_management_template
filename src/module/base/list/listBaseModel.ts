@@ -1,11 +1,12 @@
 import { AnyAction } from "redux";
 import { ModelBase } from "../../../app/modelBase";
+import { Hash } from "../../../app/hash";
 
-export function getModel({ namespace, statePath }) {
+export function getModel({ namespace = "", statePath = "", initState = new Hash() }) {
   return new ModelBase({
     namespace: namespace,
     initState: {
-      condition: {},
+      condition: initState.condition || {},
       list: [],
       isShowLoading: false,
       isShowEditDialog: false
@@ -14,6 +15,7 @@ export function getModel({ namespace, statePath }) {
     reducers: {
       conditionChanged(state: any, action: AnyAction) {
         let { condition } = state;
+        console.log(999, action.key, action.value);
         return {
           ...state,
           condition: {
@@ -39,7 +41,8 @@ export function getModel({ namespace, statePath }) {
       listFetched(state: any, action: AnyAction) {
         return {
           ...state,
-          list: action.list
+          list: action.list,
+          count: action.count
         };
       },
 

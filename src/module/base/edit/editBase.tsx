@@ -67,6 +67,8 @@ export abstract class EditBaseComponent extends React.Component<ComponentProps, 
               message.error(result.message || "获取数据失败！");
             }
 
+            
+
             dispatch({
               type: this.listModel.getActionType("hideLoading")
             });

@@ -4,16 +4,29 @@ export let listService = {
   async init() {
     let list = new Array<any>();
     for (let i = 0; i < 1000; i++) {
-      list.push({ id: `${i}`, name: `name${i}`, sex: i % 2 ? "男" : "女", checked: i % 2 === 1 });
+      list.push({ id: `${i + 1}`, name: `name${i + 1}`, sex: i % 2 ? "男" : "女", checked: i % 2 === 1, address: "浙江省杭州市西湖区南山路000号" });
     }
 
     window.localStorage.setItem("userList", JSON.stringify(list));
   },
 
-  async getUserList() {
+  async getUserList(condition: any) {
+    let list1 = await this.getUserListData();
+    let list = [];
+    if (condition) {
+      list = list1
+        .filter((item: any, index: number) => {
+          return (!condition.id || item.id.indexOf(condition.id) > -1) && (!condition.name || item.name.indexOf(condition.name) > -1) && (!condition.sex || item.sex == condition.sex);
+        })
+        .filter((item: any, index: number) => {
+          return index >= condition.pageSize * (condition.pageIndex - 1) && index < condition.pageSize * condition.pageIndex;
+        });
+    }
+
     return {
       success: true,
-      data: await this.getUserListData()
+      data: list,
+      count: list1.length
     };
   },
 
@@ -62,7 +75,7 @@ export let listService = {
     window.localStorage.setItem("userList", JSON.stringify(userList));
 
     return {
-      success: false,
+      success: true,
       message: "由于某某原因，审核失败!"
     };
   }

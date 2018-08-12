@@ -19,7 +19,8 @@ class EditComponent extends EditBaseComponent {
   }
 
   async onFetch() {
-    return await listService.getUserList();
+    let condition = this.listModel.getState().condition;
+    return await listService.getUserList(condition);
   }
 
   render() {
@@ -45,7 +46,7 @@ class EditComponent extends EditBaseComponent {
             {getFieldDecorator("sex", {
               rules: [{ required: true, message: "请输入性别" }]
             })(
-              <Select defaultValue="男" style={{ width: 120 }}>
+              <Select style={{ width: 120 }}>
                 <Select.Option value="男">男</Select.Option>
                 <Select.Option value="女">女</Select.Option>
               </Select>

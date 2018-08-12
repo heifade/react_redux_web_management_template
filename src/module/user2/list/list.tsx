@@ -2,12 +2,13 @@ import * as React from "react";
 import { ListBaseComponent, connectList } from "../../base/list/listBase";
 import { ComponentProps } from "../../../app/componentProps";
 import { Dispatch } from "redux";
-import { Spin, Table, Divider, Row, Col, Input, Button, Select, message } from "antd";
+import { Spin, Table, Divider, Row, Col, Input, Button, Select, message, Pagination } from "antd";
 import { model as listModel } from "./listModel";
 import { model as editModel } from "../edit/editModel";
 import { listService } from "./listService";
 import EditDialog from "../edit/edit";
 let styles = require("./list.less");
+import { ListPageComponent } from "../../components/listPage/listPageComponent";
 
 class ListComponent extends ListBaseComponent {
   constructor(props: ComponentProps, context: any) {
@@ -18,7 +19,8 @@ class ListComponent extends ListBaseComponent {
   }
 
   async onFetch() {
-    return await listService.getUserList();
+    console.log(11, this.props.modelData.condition);
+    return await listService.getUserList(this.props.modelData.condition);
   }
 
   async onGetDetail(data: any) {
@@ -56,36 +58,75 @@ class ListComponent extends ListBaseComponent {
 
   onSearchHandle = () => {
     this.onSelectHandle();
-  }
+  };
+
+  onPaginationChanged = (page: number) => {
+    this.props.dispatch(async (dispatch: Dispatch) => {
+      dispatch({
+        type: this.listModel.getActionType("conditionChanged"),
+        key: "pageIndex",
+        value: page
+      });
+
+      setTimeout(() => {
+        this.onSelectHandle();
+      }, 0);
+    });
+  };
 
   render() {
-    const { list, isShowLoading, isShowEditDialog, condition } = this.props.modelData;
+    const { list, isShowLoading, isShowEditDialog, condition, count } = this.props.modelData;
     const dataSource = list.map((data: any, index: number) => ({ ...data, key: index, checkState: data.checked ? "已审核" : "未审核" }));
+
     const columns = [
       {
         title: "编号",
         dataIndex: "id",
-        key: "id"
+        key: "id",
+        width: 100,
+        fixed: "left"
       },
       {
         title: "姓名",
         dataIndex: "name",
-        key: "name"
+        key: "name",
+        width: 100,
+        fixed: "left"
       },
       {
-        title: "年龄",
+        title: "性别",
         dataIndex: "sex",
-        key: "sex"
+        key: "sex",
+        width: 100
       },
       {
         title: "审核状态",
         dataIndex: "checkState",
-        key: "checkState"
+        key: "checkState",
+        width: 100
+      },
+      {
+        title: "地址1",
+        dataIndex: "address",
+        key: "address1",
+        width: 300
+      },
+      {
+        title: "地址2",
+        dataIndex: "address",
+        key: "address2",
+        width: 300
+      },
+      {
+        title: "地址3",
+        dataIndex: "address",
+        key: "address3"
       },
       {
         title: "操作",
         key: "action",
-        width: 120,
+        width: 150,
+        fixed: "right",
         render: (text: any, record: any) => (
           <span>
             <a href="javascript:;" onClick={() => this.onShowEditHandle(record)}>
@@ -117,17 +158,17 @@ class ListComponent extends ListBaseComponent {
     };
 
     return (
-      <div>
-        <div className={styles.condition}>
+      <ListPageComponent
+        condition={
           <Row gutter={16}>
             <Col {...conditionSpan}>
-              <Input addonBefore="编号" placeholder="请输入编号" onChange={(e) => this.onConditionChanged("id", e.target.value)} value={condition.id} />
+              <Input addonBefore="编号" placeholder="请输入编号" onChange={e => this.onConditionChanged("id", e.target.value)} value={condition.id} />
             </Col>
             <Col {...conditionSpan}>
-              <Input addonBefore="姓名" placeholder="请输入姓名" onChange={(e) => this.onConditionChanged("name", e.target.value)} value={condition.name}/>
+              <Input addonBefore="姓名" placeholder="请输入姓名" onChange={e => this.onConditionChanged("name", e.target.value)} value={condition.name} />
             </Col>
             <Col {...conditionSpan}>
-              <Select defaultValue="" style={{ width: 120 }} onChange={(e) => this.onConditionChanged("sex", e)} value={condition.sex}>
+              <Select style={{ width: 120 }} onChange={e => this.onConditionChanged("sex", e)} value={condition.sex}>
                 <Select.Option value="">全部</Select.Option>
                 <Select.Option value="男">男</Select.Option>
                 <Select.Option value="女">女</Select.Option>
@@ -139,14 +180,14 @@ class ListComponent extends ListBaseComponent {
               </Button>
             </Col>
           </Row>
-        </div>
-        <div className={styles.userList}>
-          <Spin spinning={isShowLoading}>
-            <Table dataSource={dataSource} columns={columns} />
-          </Spin>
-          {isShowEditDialog && <EditDialog />}
-        </div>
-      </div>
+        }
+        dataSource={dataSource}
+        dataCount={count}
+        onPaginationChanged={this.onPaginationChanged}
+        isShowLoading={isShowLoading}
+        columns={columns}
+        editDialog={isShowEditDialog && <EditDialog />}
+      />
     );
   }
 }
