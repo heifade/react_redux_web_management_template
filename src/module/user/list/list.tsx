@@ -2,7 +2,8 @@ import * as React from "react";
 import { ListBaseComponent, connectList } from "../../base/list/listBase";
 import { ComponentProps } from "../../../app/componentProps";
 import { Dispatch } from "redux";
-import { Spin, Table, Divider, Row, Col, Input, Button, Select, message, Pagination } from "antd";
+import { Divider, Row, Col, Input, Button, message } from "antd";
+import { Select } from "../../components/select";
 import { model as listModel } from "./listModel";
 import { model as editModel } from "../edit/editModel";
 import { listService } from "./listService";
@@ -166,11 +167,7 @@ class ListComponent extends React.Component<ComponentProps, any> {
               <Input addonBefore="姓名" placeholder="请输入姓名" onChange={e => this.listBase.onConditionChanged("name", e.target.value)} value={condition.name} />
             </Col>
             <Col {...conditionSpan}>
-              <Select style={{ width: 120 }} onChange={e => this.listBase.onConditionChanged("sex", e.toString())} value={condition.sex}>
-                <Select.Option value="">全部</Select.Option>
-                <Select.Option value="男">男</Select.Option>
-                <Select.Option value="女">女</Select.Option>
-              </Select>
+              <Select addonBefore="性别" options={[{ value: "", text: "全部" },{ value: "男", text: "男" }, { value: "女", text: "女" }]} placeholder="性别" onChange={value => this.listBase.onConditionChanged("sex", value)} value={condition.sex} />
             </Col>
             <Col xl={2}>
               <Button type="primary" icon="search" onClick={this.onSearchHandle}>

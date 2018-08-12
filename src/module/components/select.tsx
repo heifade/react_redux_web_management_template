@@ -10,6 +10,7 @@ interface SelectProps {
 
   value: string;
   placeholder: string;
+  addonBefore: string;
   onChange: (value: string) => void;
 }
 
@@ -30,8 +31,19 @@ export class Select extends React.Component<SelectProps, any> {
 
     let value = [this.props.value];
 
-    let { placeholder } = this.props;
+    let { placeholder, addonBefore } = this.props;
 
-    return <Cascader options={options} onChange={this.onChange.bind(this)} value={value} placeholder={placeholder} allowClear={false} popupClassName={styles.popup} />;
+    let input = <Cascader options={options} onChange={this.onChange.bind(this)} value={value} placeholder={placeholder} allowClear={false} popupClassName={styles.popup} />;
+
+    if (addonBefore) {
+      return (
+        <span className={styles.table}>
+          <span className={styles.label}>{addonBefore}</span>
+          <span className={styles.input}>{input}</span>
+        </span>
+      );
+    }
+
+    return input;
   }
 }
