@@ -1,20 +1,19 @@
 import * as React from "react";
 import { Provider } from "react-redux";
 import { Layout } from "antd";
-import { Route, Router, Switch, BrowserRouter, HashRouter } from "react-router-dom";
+import { Route, Router, Switch } from "react-router-dom";
 import { store } from "./store";
 import * as classname from "classnames";
 import { MenuProps, MenuComponent } from "./menu";
 import { BreadcrumbComponent } from "./breadcrumb";
 import createHistory from "history/createHashHistory";
-import { MenuModule } from "./modules";
 import { menuList, routeList } from "./route";
 import { LocaleProvider } from "antd";
-import zhCN from "antd/lib/locale-provider/zh_CN";
+import * as zhCN from "antd/lib/locale-provider/zh_CN";
 import * as moment from "moment";
-import 'moment/locale/zh-cn';
+import "moment/locale/zh-cn";
 
-moment.locale('zh-cn');
+moment.locale("zh-cn");
 
 const history = createHistory();
 const styles = require("./app.less");
@@ -25,35 +24,52 @@ function getLocation() {
   return location.hash.replace(/^#/, "") || "/index";
 }
 
-let MainComponent = (props: MenuProps) => {
-  let path = getLocation();
+class MainComponent extends React.Component<MenuProps, any> {
+  constructor(props: MenuProps, context: any) {
+    super(props, context);
 
-  return (
-    <LocaleProvider locale={zhCN}>
-      <Layout className={styles.app}>
-        <Header className={classname("header", styles.header)}>
-          <div className="logo" />
-        </Header>
-        <Layout className={styles.body}>
-          <Sider className={styles["menu-side"]}>
-            <MenuComponent {...props} path={path} />
-          </Sider>
-          <Layout className={styles["content-side"]}>
-            <BreadcrumbComponent {...props} path={path} />
+    this.state = {
+      collapsed: false
+    };
+  }
 
-            <Content>
-              <Switch>
-                {routeList.map((m, i) => (
-                  <Route key={i} path={m.path} component={m.component} />
-                ))}
-              </Switch>
-            </Content>
+  onCollapse = (collapsed: boolean) => {
+    this.setState({
+      collapsed
+    });
+  };
+
+  render() {
+    let path = getLocation();
+    console.log(1, zhCN);
+    return (
+      <LocaleProvider locale={zhCN}>
+        <Layout className={styles.app}>
+          <Header className={classname("header", styles.header)}>
+            <div className={styles.logo} />
+          </Header>
+          <Layout className={styles.body}>
+            <Sider className={styles["menu-side"]} collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+              <div className={styles.menu}>
+                <MenuComponent {...this.props} path={path} />
+              </div>
+            </Sider>
+            <Layout className={styles["content-side"]} style={{ padding: "10px" }}>
+              <BreadcrumbComponent {...this.props} path={path} />
+              <Content>
+                <Switch>
+                  {routeList.map((m, i) => (
+                    <Route key={i} path={m.path} component={m.component} />
+                  ))}
+                </Switch>
+              </Content>
+            </Layout>
           </Layout>
         </Layout>
-      </Layout>
-    </LocaleProvider>
-  );
-};
+      </LocaleProvider>
+    );
+  }
+}
 
 export class Props {}
 export class AppComponent extends React.Component<Props, any> {

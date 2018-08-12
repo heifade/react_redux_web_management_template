@@ -5,6 +5,20 @@
     position: fixed;
     z-index: 1;
     width: 100%;
+
+    .logo {
+      background: url("./img/logo.png");
+      background-size: 100% 100%;
+      width: 265px;
+      height: 40px;
+      position: absolute;
+      top: 12px;
+      left: 12px;
+    }
+
+    .btn-collape {
+      color: #fff;
+    }
   }
 
   .body {
@@ -13,21 +27,18 @@
     .menu-side {
       overflow: auto;
       height: 100vh;
-      position: fixed;
       left: 0;
-      width: 150px;
+
+      .menu {
+        position: fixed;
+        width: 200px;
+      }
     }
 
     .content-side {
-      padding: 0 24px 24px;
-      margin-left: 200px;
-
       .breadcrumb {
         margin: 16px 0;
       }
     }
-
-    
   }
 }
-

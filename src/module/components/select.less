@@ -6,6 +6,7 @@
 
 .table {
   display: table;
+  width: 100%;
 
   .label {
     border: 1px solid #d9d9d9;
@@ -22,10 +23,15 @@
     font-weight: normal;
     color: rgba(0, 0, 0, 0.65);
     text-align: center;
+    width: 1px;
   }
 
   .input {
     display: table-cell;
+
+    span{
+      width: 100%;
+    }
 
     input {
       border-bottom-left-radius: 0;
