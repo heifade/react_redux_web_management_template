@@ -8,7 +8,7 @@ import { model as listModel } from "./listModel";
 import { model as editModel } from "../edit/editModel";
 import { listService } from "./listService";
 import EditDialog from "../edit/edit";
-let styles = require("./list.less");
+// let styles = require("./list.less");
 
 class ListComponent extends React.Component<ComponentProps, any> {
   private listBase: ListBaseComponent;
