@@ -4,8 +4,8 @@ import { ComponentProps } from "../../../app/componentProps";
 import { Dispatch } from "redux";
 import { Divider, Row, Col, Input, Button, message } from "antd";
 import { Select } from "../../components/select";
-import { model as listModel } from "./listModel";
-import { model as editModel } from "../edit/editModel";
+import { listModel } from "./listModel";
+import { editModel } from "../edit/editModel";
 import { listService } from "./listService";
 import EditDialog from "../edit/edit";
 // let styles = require("./list.less");
@@ -39,7 +39,8 @@ class ListComponent extends React.Component<ComponentProps, any> {
         if (result.success) {
           dispatch({
             type: listModel.getActionType("listFetched"), // 列表填充数据
-            list: result.data
+            list: result.data,
+            count: result.count
           });
         } else {
           message.error(result.message || "获取数据失败！");

@@ -1,8 +1,6 @@
-
-
 import { getModel } from "../../base/edit/editDialogBaseModel";
 
-export let model = getModel({
-  namespace: 'userEdit',
+export let editModel = getModel({
+  namespace: "userEdit",
   statePath: "user.userEdit"
 });

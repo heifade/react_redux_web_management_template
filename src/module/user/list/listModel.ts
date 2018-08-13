@@ -1,7 +1,7 @@
 import { getModel } from "../../base/list/listBaseModel";
-import { AnyAction } from "redux";
+// import { AnyAction } from "redux";
 
-export let model = getModel({
+export let listModel = getModel({
   namespace: "userList",
   statePath: "user.userList",
   initState: {

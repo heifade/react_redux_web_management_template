@@ -6,7 +6,6 @@ export function modelToReducer(model: ModelBase): any {
     if (state == null) {
       state = model.initState;
     }
-    
 
     let start = model.namespace + "_";
     if (action.type.startsWith(start)) {

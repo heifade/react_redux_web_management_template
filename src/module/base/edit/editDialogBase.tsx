@@ -5,7 +5,7 @@ import { ModelBase } from "../../../app/modelBase";
 import { Form, Modal, Button, message } from "antd";
 import { Hash } from "../../../app/hash";
 import { connect } from "react-redux";
-let styles = require("./editDialogBase.less");
+// let styles = require("./editDialogBase.less");
 
 export let ModalWdith = {
   small: 520,

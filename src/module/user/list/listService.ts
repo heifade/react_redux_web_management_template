@@ -4,7 +4,7 @@ export let listService = {
   async init() {
     let list = new Array<any>();
     for (let i = 0; i < 1000; i++) {
-      list.push({ id: `${i + 1}`, name: `name${i + 1}`, sex: i % 2 ? "男" : "女", checked: i % 2 === 1, address: "浙江省杭州市西湖区南山路000号" });
+      list.push({ id: `${i + 1}`, name: `name${i + 1}`, sex: i % 2 ? "男" : "女", checked: i % 2 === 1, address: `某某省某某市某某区某某路${i}号` });
     }
 
     window.localStorage.setItem("userList", JSON.stringify(list));

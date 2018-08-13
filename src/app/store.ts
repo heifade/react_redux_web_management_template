@@ -13,7 +13,7 @@ import { createLogger } from "redux-logger";
 const loggerMiddleware = createLogger();
 
 let reducer = combineReducers({
-  user: userReducer,
+  user: userReducer
 });
 
 export let store = createStore(

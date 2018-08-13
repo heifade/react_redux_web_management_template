@@ -1,4 +1,4 @@
-import { AnyAction } from "../../node_modules/redux";
+import { AnyAction } from "redux";
 import { store } from "./store";
 
 interface ModelBaseInit {

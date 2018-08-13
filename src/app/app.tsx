@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { Layout } from "antd";
 import { Route, Router, Switch } from "react-router-dom";
 import { store } from "./store";
-import * as classname from "classnames";
+import * as classnames from "classnames";
 import { MenuProps, MenuComponent } from "./menu";
 import { BreadcrumbComponent } from "./breadcrumb";
 import createHistory from "history/createHashHistory";
@@ -41,11 +41,10 @@ class MainComponent extends React.Component<MenuProps, any> {
 
   render() {
     let path = getLocation();
-    console.log(1, zhCN);
     return (
       <LocaleProvider locale={zhCN}>
         <Layout className={styles.app}>
-          <Header className={classname("header", styles.header)}>
+          <Header className={classnames("header", styles.header)}>
             <div className={styles.logo} />
           </Header>
           <Layout className={styles.body}>
