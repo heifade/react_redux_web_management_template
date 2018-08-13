@@ -18,7 +18,8 @@ export default async function() {
       //   title: "登录",
       //   url: resolve(__dirname, "./public/login.html")
       // }
-    ]
+    ],
+    
   };
 
   return config;
