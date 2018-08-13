@@ -1,0 +1,41 @@
+.appHeader {
+  width: 100%;
+  position: relative;
+
+  .logo {
+    background: url("./img/logo.png");
+    background-size: 100% 100%;
+    width: 265px;
+    height: 40px;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+  }
+
+  .user {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+
+    right: 15px;
+    align-items: center;
+
+    .avatar {
+      width: 40px;
+    }
+
+    .split {
+      width: 5px;
+    }
+
+    .userName {
+      color: #fff;
+      transition: color 0.3s;
+      cursor: pointer;
+
+      &:hover {
+        color: #1890ff;
+      }
+    }
+  }
+}

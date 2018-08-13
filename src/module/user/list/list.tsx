@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ListBaseComponent, connectList } from "../../base/list/listBase";
-import { ComponentProps } from "../../../app/componentProps";
+import { ComponentProps } from "../../common/componentProps";
 import { Dispatch } from "redux";
 import { Divider, Row, Col, Input, Button, message } from "antd";
 import { Select } from "../../components/select";

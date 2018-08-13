@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ComponentProps } from "../../../app/componentProps";
+import { ComponentProps } from "../../common/componentProps";
 import { EditDialogBaseComponent, connectForm } from "../../base/edit/editDialogBase";
 import { Form, Input, Icon, Row, Col, Cascader, DatePicker, TimePicker } from "antd";
 import { Select } from "../../components/select";

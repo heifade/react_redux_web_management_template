@@ -1,4 +1,4 @@
-import { wait } from "../../../app/utils";
+import { wait } from "../../common/utils";
 
 export let listService = {
   async init() {

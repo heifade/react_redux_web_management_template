@@ -1,9 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { AppComponent } from "../module/app/app";
-import "antd/dist/antd.css";
+import { LoginComponent } from "./login";
 
 let div = document.createElement("div");
 document.body.appendChild(div);
 
-ReactDOM.render(<AppComponent />, div);
+ReactDOM.render(<LoginComponent />, div);

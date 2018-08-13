@@ -1,6 +1,6 @@
 import { AnyAction } from "redux";
-import { ModelBase } from "../../../app/modelBase";
-import { Hash } from "../../../app/hash";
+import { ModelBase } from "../../common/modelBase";
+import { Hash } from "../../common/hash";
 
 export function getModel({ namespace = "", statePath = "", initState = new Hash() }) {
   return new ModelBase({

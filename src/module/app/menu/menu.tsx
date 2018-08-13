@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Menu, Icon } from "antd";
 import { NavLink } from "react-router-dom";
-import { MenuModule } from "./modules";
+import { MenuModule } from "../../common/modules";
 
 export interface MenuProps {
   menuList: Array<MenuModule>;
@@ -60,15 +60,7 @@ export function MenuComponent(props: MenuProps) {
   }
 
   return (
-    <Menu
-      defaultSelectedKeys={[props.path]}
-      defaultOpenKeys={defaultOpenKeys()}
-      selectedKeys={[props.path]}
-      mode="inline"
-      theme="dark"
-      // inlineCollapsed={this.state.collapsed}
-      onClick={props.onMenuClick}
-    >
+    <Menu defaultSelectedKeys={[props.path]} defaultOpenKeys={defaultOpenKeys()} selectedKeys={[props.path]} mode="inline" theme="dark" onClick={props.onMenuClick}>
       {createMenu()}
     </Menu>
   );

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Breadcrumb } from "antd";
-import { MenuProps } from "./menu";
+import { MenuProps } from "../menu/menu";
 import { Link } from "react-router-dom";
-import { MenuModule } from "./modules";
-const styles = require("./app.less");
+import { MenuModule } from "../../common/modules";
+const styles = require("../app.less");
 
 export function BreadcrumbComponent(props: MenuProps) {
   function initBreadcrumb() {

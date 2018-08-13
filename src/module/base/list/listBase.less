@@ -13,9 +13,16 @@
   }
 
   .tableList {
-    // .ant-table-middle tr td {
-    //   padding: 5px 3px 5px 3px !important;
-    // }
+    
+    // 紧凑型表格不固定的列的背景色
+    :global(.ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-tbody > tr > td) {
+      background-color: #fff;
+    }
+
+    // 紧凑型表格不固定的列鼠标移上去时的背景色
+    :global(.ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-tbody > tr.ant-table-row-hover > td) {
+      background-color: #e6f7ff;
+    }
   }
 
   .pagination {

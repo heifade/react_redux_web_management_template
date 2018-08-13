@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { modelToReducer } from "../../app/modelToReducer";
+import { modelToReducer } from "../common/modelToReducer";
 import { listModel } from "./list/listModel";
 import { editModel } from "./edit/editModel";
 

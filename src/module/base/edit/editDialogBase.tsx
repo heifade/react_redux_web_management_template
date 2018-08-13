@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Dispatch } from "redux";
-import { ComponentProps } from "../../../app/componentProps";
-import { ModelBase } from "../../../app/modelBase";
+import { ComponentProps } from "../../common/componentProps";
+import { ModelBase } from "../../common/modelBase";
 import { Form, Modal, Button, message } from "antd";
-import { Hash } from "../../../app/hash";
+import { Hash } from "../../common/hash";
 import { connect } from "react-redux";
 // let styles = require("./editDialogBase.less");
 

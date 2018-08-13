@@ -2,11 +2,11 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { Layout, LocaleProvider, Icon } from "antd";
 import { Route, Router, Switch } from "react-router-dom";
-import { store } from "./store";
-import { MenuProps, MenuComponent } from "./menu";
-import { BreadcrumbComponent } from "./breadcrumb";
+import { store } from "../common/store";
+import { MenuProps, MenuComponent } from "./menu/menu";
+import { BreadcrumbComponent } from "./breadcrumb/breadcrumb";
 import createHistory from "history/createHashHistory";
-import { menuList, routeList } from "./route";
+import { menuList, routeList } from "../common/route";
 import * as zhCN from "antd/lib/locale-provider/zh_CN";
 import * as moment from "moment";
 import "moment/locale/zh-cn";
@@ -38,13 +38,15 @@ class MainComponent extends React.Component<MenuProps, any> {
     });
   };
 
+  onLogout = () => {}
+
   render() {
     let path = getLocation();
     let { collapsed } = this.state;
     return (
-      <LocaleProvider locale={zhCN}>
+      <LocaleProvider locale={zhCN as any}>
         <Layout className={styles.app}>
-          <HeaderComponent />
+          <HeaderComponent onLogout={this.onLogout}/>
           <Layout className={styles.appBody}>
             <Sider className={styles.menuSider} collapsed={collapsed} onCollapse={this.onCollapse}>
               <div className={styles.menu}>
