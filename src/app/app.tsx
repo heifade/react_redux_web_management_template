@@ -1,24 +1,23 @@
 import * as React from "react";
 import { Provider } from "react-redux";
-import { Layout } from "antd";
+import { Layout, LocaleProvider, Icon } from "antd";
 import { Route, Router, Switch } from "react-router-dom";
 import { store } from "./store";
-import * as classnames from "classnames";
 import { MenuProps, MenuComponent } from "./menu";
 import { BreadcrumbComponent } from "./breadcrumb";
 import createHistory from "history/createHashHistory";
 import { menuList, routeList } from "./route";
-import { LocaleProvider } from "antd";
 import * as zhCN from "antd/lib/locale-provider/zh_CN";
 import * as moment from "moment";
 import "moment/locale/zh-cn";
+import { HeaderComponent } from "./header/header";
 
 moment.locale("zh-cn");
 
 const history = createHistory();
 const styles = require("./app.less");
 
-let { Sider, Content, Header } = Layout;
+let { Sider, Content } = Layout;
 
 function getLocation() {
   return location.hash.replace(/^#/, "") || "/index";
@@ -33,27 +32,27 @@ class MainComponent extends React.Component<MenuProps, any> {
     };
   }
 
-  onCollapse = (collapsed: boolean) => {
+  onCollapse = () => {
     this.setState({
-      collapsed
+      collapsed: !this.state.collapsed
     });
   };
 
   render() {
     let path = getLocation();
+    let { collapsed } = this.state;
     return (
       <LocaleProvider locale={zhCN}>
         <Layout className={styles.app}>
-          <Header className={classnames("header", styles.header)}>
-            <div className={styles.logo} />
-          </Header>
-          <Layout className={styles.body}>
-            <Sider className={styles["menu-side"]} collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+          <HeaderComponent />
+          <Layout className={styles.appBody}>
+            <Sider className={styles.menuSider} collapsed={collapsed} onCollapse={this.onCollapse}>
               <div className={styles.menu}>
+                <Icon className={styles.btnMenuCollapse} type={collapsed ? "menu-unfold" : "menu-fold"} title={collapsed ? "展开菜单" : "最小化菜单"} onClick={this.onCollapse} />
                 <MenuComponent {...this.props} path={path} />
               </div>
             </Sider>
-            <Layout className={styles["content-side"]} style={{ padding: "10px" }}>
+            <Layout className={styles.contentSider} style={{ padding: "10px" }}>
               <BreadcrumbComponent {...this.props} path={path} />
               <Content>
                 <Switch>

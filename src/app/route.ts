@@ -6,7 +6,7 @@ export let menuList: Array<MenuModule> = [
   { title: "主页", path: "/index", img: "home" },
   { title: "系统设置", path: "/system", img: "setting" },
   { title: "用户管理", path: "/system/user", img: "user" },
-  { title: "角色管理", path: "/system/role", img: "solution" }
+  { title: "角色管理", path: "/system/role", img: "solution" },
 ];
 
 export let routeList: Array<{ path: string; component: any }> = [

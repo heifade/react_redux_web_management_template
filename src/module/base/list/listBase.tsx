@@ -150,7 +150,7 @@ export class ListBaseComponent extends React.Component<ListBaseComponentProps, a
         <div className={styles.lineBelowCondition} />
         <div className={styles.tableList}>
           <Spin spinning={isShowLoading}>
-            <Table dataSource={dataSource} columns={columns} size="middle" bordered={true} scroll={{ x: 1600, y: 500 }} pagination={false} />
+            <Table dataSource={dataSource} columns={columns} size="small" bordered={true} scroll={{ x: 1600}} pagination={false} />
             <div className={styles.pagination}>
               <Pagination defaultCurrent={1} showTotal={total => `总共 ${total} 条`} total={dataCount} showQuickJumper hideOnSinglePage={true} defaultPageSize={10} onChange={this.onPaginationChanged} />
             </div>
