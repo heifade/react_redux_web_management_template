@@ -1,4 +1,5 @@
 import { wait } from "../../common/utils";
+import { localStorage } from "../../common/localStorage";
 
 export let listService = {
   async init() {
@@ -7,7 +8,7 @@ export let listService = {
       list.push({ id: `${i + 1}`, name: `name${i + 1}`, sex: i % 2 ? "男" : "女", checked: i % 2 === 1, address: `某某省某某市某某区某某路${i}号` });
     }
 
-    window.localStorage.setItem("userList", JSON.stringify(list));
+    localStorage.save("userList", list);
   },
 
   async getUserList(condition: any) {
@@ -33,7 +34,7 @@ export let listService = {
 
   async getUserListData() {
     await wait(300);
-    return JSON.parse(window.localStorage.getItem("userList"));
+    return localStorage.get("userList");
   },
 
   async getUser(id: number) {
@@ -48,7 +49,7 @@ export let listService = {
   async deleteUser(id: number) {
     let userList = await this.getUserListData();
     let userList2 = userList.filter((item: any, index: number) => item.id !== id);
-    window.localStorage.setItem("userList", JSON.stringify(userList2));
+    localStorage.save("userList", userList2);
 
     return {
       success: true,
@@ -61,7 +62,7 @@ export let listService = {
     let user = userList.find((item: any) => item.id === userData.id);
     user.name = userData.name;
     user.sex = userData.sex;
-    window.localStorage.setItem("userList", JSON.stringify(userList));
+    localStorage.save("userList", userList);
 
     return {
       success: true,
@@ -73,7 +74,7 @@ export let listService = {
     let userList = await this.getUserListData();
     let user = userList.find((item: any) => item.id === userData.id);
     user.checked = true;
-    window.localStorage.setItem("userList", JSON.stringify(userList));
+    localStorage.save("userList", userList);
 
     return {
       success: true,

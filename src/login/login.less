@@ -1,0 +1,44 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.divMain {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .divBack {
+    @out: #001526;
+    @middle: tint(@out, 20%);
+    @in: tint(@middle, 20%);
+    background: repeating-radial-gradient(@in 0%, @middle 50%, @out 100%);
+    flex-grow: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .divLogin {
+    z-index: 2;
+    width: 355px;
+    height: 300px;
+
+    .loginForm {
+      max-width: 300px;
+
+      .loginFormForgot {
+        float: right;
+      }
+      .loginFormButton {
+        width: 100%;
+      }
+    }
+  }
+}

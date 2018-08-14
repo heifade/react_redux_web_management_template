@@ -288,9 +288,9 @@ hammerjs@^2.0.8:
   version "2.0.8"
   resolved "https://registry.npmjs.org/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
 
-happywork-config@^1.0.0-beta5:
-  version "1.0.0-beta5"
-  resolved "https://registry.npmjs.org/happywork-config/-/happywork-config-1.0.0-beta5.tgz#a85854e0e7440c1b7ea89e2509ef89d0a9f4891d"
+happywork-config@^1.0.0-beta8:
+  version "1.0.0-beta8"
+  resolved "https://registry.npmjs.org/happywork-config/-/happywork-config-1.0.0-beta8.tgz#e640a50a81aef8e43193757cf8fed0722334b63f"
 
 history@^4.7.2:
   version "4.7.2"
